@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Quản Trị Viên – Việc Làm Dầu Tiếng</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+
+/* ── Login ── */
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1563a8,#0a3660);padding:20px}
+.login-box{background:#fff;border-radius:16px;padding:36px 32px;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.login-logo{text-align:center;margin-bottom:20px}
+.login-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:4px}
+.login-sub{font-size:13px;color:#94a3b8;text-align:center;margin-bottom:24px}
+.fg{margin-bottom:14px}
+.fg label{font-size:13px;color:#64748b;display:block;margin-bottom:5px;font-weight:600}
+.fg input{width:100%;padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;transition:border-color .15s}
+.fg input:focus{border-color:#1563a8}
+.btn-login{width:100%;background:#1563a8;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-login:hover{background:#0e4f8a}
+.login-err{background:#fef2f2;color:#b91c1c;padding:9px 13px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none;border:1px solid #fecaca}
+.back-ln{display:block;text-align:center;margin-top:16px;color:#94a3b8;font-size:13px;text-decoration:underline;cursor:pointer}
+
+/* ── Admin layout ── */
+.admin-page{display:none;min-height:100vh;flex-direction:column}
+.admin-header{background:#0f172a;color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:50}
+.admin-header h1{font-size:15px;font-weight:700}
+.header-right{display:flex;align-items:center;gap:10px}
+.view-site{color:#93c5fd;font-size:13px;text-decoration:underline}
+.btn-logout{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px}
+.admin-nav{background:#1e293b;display:flex;overflow-x:auto;padding:0 16px}
+.anav-item{color:#94a3b8;padding:13px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none}
+.anav-item.active{color:#fff;border-bottom-color:#3b82f6}
+.admin-body{padding:16px;max-width:900px;margin:0 auto;width:100%;flex:1}
+
+/* ── Stats bar ── */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:600px){.stats-bar{grid-template-columns:1fr 1fr}}
+.sb{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sb-n{font-size:22px;font-weight:800;color:#1563a8}
+.sb-l{font-size:12px;color:#94a3b8;margin-top:2px}
+
+/* ── Section ── */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sh-title{font-size:15px;font-weight:700}
+.btn-add{background:#1563a8;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-add:hover{background:#0e4f8a}
+
+/* ── Record card ── */
+.rec{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #e2e8f0}
+.rec.hot{border-left-color:#ea580c}
+.rec.new{border-left-color:#16a34a}
+.rec.urgent{border-left-color:#dc2626}
+.rec-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:8px}
+.rec-title{font-size:15px;font-weight:700;flex:1}
+.rec-company{font-size:13px;color:#1563a8;font-weight:600;margin-bottom:4px}
+.rec-meta{font-size:12px;color:#94a3b8;margin-bottom:10px}
+.rec-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-edit{background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd;padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
+.btn-del{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
+.badge-tag{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:700;flex-shrink:0}
+.bt-hot{background:#fff7ed;color:#c2410c}
+.bt-new{background:#f0fdf4;color:#15803d}
+.bt-urgent{background:#fef2f2;color:#b91c1c}
+.bt-none{background:#f1f5f9;color:#94a3b8}
+
+/* ── Modal / Drawer ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200}
+@media(min-width:600px){.overlay{align-items:center;padding:20px}}
+.drawer{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;padding:20px}
+@media(min-width:600px){.drawer{border-radius:16px}}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
+.drawer-title{font-size:17px;font-weight:800}
+.xbtn{background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8;line-height:1}
+.fg2{margin-bottom:12px}
+.fg2 label{font-size:13px;color:#64748b;display:block;margin-bottom:5px;font-weight:600}
+.fg2 label span{color:#dc2626}
+.fg2 input,.fg2 select,.fg2 textarea{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#1e293b;transition:border-color .15s}
+.fg2 input:focus,.fg2 select:focus,.fg2 textarea:focus{border-color:#1563a8}
+.fg2 textarea{resize:vertical;min-height:80px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:400px){.frow{grid-template-columns:1fr}}
+.btn-save{width:100%;background:#1563a8;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px}
+.btn-save:hover{background:#0e4f8a}
+.btn-save:disabled{background:#94a3b8;cursor:not-allowed}
+.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none}
+.alert.ok{background:#f0fdf4;color:#15803d;display:block;border:1px solid #bbf7d0}
+.alert.err{background:#fef2f2;color:#b91c1c;display:block;border:1px solid #fecaca}
+
+.empty{text-align:center;padding:36px;color:#cbd5e1;font-size:14px}
+.loading{text-align:center;padding:24px;color:#94a3b8}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══════════════════════════════════════════════════ -->
+<div class="login-page" id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#1563a8" stroke-width="2" style="margin:0 auto;display:block">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <div class="login-title">Đăng nhập Quản trị</div>
+    <div class="login-sub">Sàn Việc Làm Huyện Dầu Tiếng</div>
+    <div class="login-err" id="loginErr"></div>
+    <div class="fg"><label>Tên đăng nhập</label><input type="text" id="uname" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="fg"><label>Mật khẩu</label><input type="password" id="upass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-login" onclick="doLogin()">Đăng nhập</button>
+    <a href="index.html" class="back-ln">← Quay về trang công khai</a>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ══════════════════════════════════════════════ -->
+<div class="admin-page" id="adminPage" style="display:none">
+  <div class="admin-header">
+    <h1>⚙️ Quản Trị – Sàn Việc Làm Dầu Tiếng</h1>
+    <div class="header-right">
+      <a href="index.html" target="_blank" class="view-site">Xem trang công khai ↗</a>
+      <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+    </div>
+  </div>
+  <div class="admin-nav">
+    <button class="anav-item active" onclick="showSection(this,'s-jobs')">💼 Tin tuyển dụng</button>
+    <button class="anav-item" onclick="showSection(this,'s-workers')">👤 Hồ sơ tìm việc</button>
+  </div>
+  <div class="admin-body">
+    <div class="stats-bar" id="statsBar"><div class="loading" style="grid-column:1/-1">Đang tải...</div></div>
+
+    <!-- JOBS SECTION -->
+    <div id="s-jobs">
+      <div class="section-header">
+        <div class="sh-title">Danh sách tin tuyển dụng</div>
+        <button class="btn-add" onclick="openJobForm()">+ Đăng tin mới</button>
+      </div>
+      <div id="jobsList"><div class="loading">Đang tải...</div></div>
+    </div>
+
+    <!-- WORKERS SECTION -->
+    <div id="s-workers" style="display:none">
+      <div class="section-header">
+        <div class="sh-title">Danh sách hồ sơ tìm việc</div>
+        <button class="btn-add" onclick="openWorkerForm()">+ Thêm hồ sơ mới</button>
+      </div>
+      <div id="workersList"><div class="loading">Đang tải...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DRAWER (form) ════════════════════════════════════════════ -->
+<div id="drawer" style="display:none"></div>
+
+<script>
+const API = '/api';
+let token = localStorage.getItem('adminToken') || '';
+let editId = null;
+
+if (token) boot();
+
+// ── Auth ────────────────────────────────────────────────────────
+async function doLogin() {
+  const username = document.getElementById('uname').value.trim();
+  const password = document.getElementById('upass').value;
+  if (!username || !password) return showLE('Vui lòng nhập đầy đủ.');
+  try {
+    const r = await fetch(`${API}/admin/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username,password}) });
+    const d = await r.json();
+    if (!r.ok) return showLE(d.error || 'Sai thông tin đăng nhập.');
+    token = d.token;
+    localStorage.setItem('adminToken', token);
+    boot();
+  } catch(e) { showLE('Không thể kết nối server.'); }
+}
+
+function showLE(msg) { const el = document.getElementById('loginErr'); el.textContent=msg; el.style.display='block'; }
+
+function logout() { localStorage.removeItem('adminToken'); token=''; location.reload(); }
+
+function boot() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'flex';
+  document.getElementById('adminPage').style.flexDirection = 'column';
+  loadStats(); loadJobs();
+}
+
+// ── Stats ────────────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const d = await fetch(`${API}/stats`).then(r=>r.json());
+    const wc = await authGet(`${API}/workers`).then(r=>r.json());
+    document.getElementById('statsBar').innerHTML = `
+      <div class="sb"><div class="sb-n">${d.total_jobs}</div><div class="sb-l">Tin tuyển dụng</div></div>
+      <div class="sb"><div class="sb-n">${d.total_qty}</div><div class="sb-l">Vị trí cần tuyển</div></div>
+      <div class="sb"><div class="sb-n">${d.total_companies}</div><div class="sb-l">Doanh nghiệp</div></div>
+      <div class="sb"><div class="sb-n">${wc.workers?wc.workers.length:0}</div><div class="sb-l">Hồ sơ tìm việc</div></div>`;
+  } catch(e){}
+}
+
+// ── Jobs ─────────────────────────────────────────────────────────
+async function loadJobs() {
+  document.getElementById('jobsList').innerHTML = '<div class="loading">Đang tải...</div>';
+  try {
+    const d = await fetch(`${API}/jobs`).then(r=>r.json());
+    if (!d.jobs.length) { document.getElementById('jobsList').innerHTML = '<div class="empty">Chưa có tin tuyển dụng nào. Nhấn "+ Đăng tin mới" để bắt đầu.</div>'; return; }
+    document.getElementById('jobsList').innerHTML = d.jobs.map(j => `
+      <div class="rec ${j.badge||''}">
+        <div class="rec-head">
+          <div>
+            <div class="rec-company">${esc(j.company)}</div>
+            <div class="rec-title">${esc(j.title)}</div>
+          </div>
+          <span class="badge-tag ${j.badge?'bt-'+j.badge:'bt-none'}">${j.badge==='hot'?'🔥 Nổi bật':j.badge==='new'?'🆕 Mới':j.badge==='urgent'?'⚠️ Gấp':'Thường'}</span>
+        </div>
+        <div class="rec-meta">👉 ${esc(j.salary||'—')} &nbsp;|&nbsp; 👥 ${j.qty} người &nbsp;|&nbsp; ${esc(j.work_type)} &nbsp;|&nbsp; 📍 ${esc(j.address||'—')} &nbsp;|&nbsp; 📞 ${esc(j.phone)} &nbsp;|&nbsp; 🗓 ${fmt(j.created_at)}</div>
+        <div class="rec-actions">
+          <button class="btn-edit" onclick="openJobForm(${j.id})">✏️ Sửa</button>
+          <button class="btn-del" onclick="delJob(${j.id})">🗑️ Xóa</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { document.getElementById('jobsList').innerHTML = '<div class="empty">Lỗi tải dữ liệu</div>'; }
+}
+
+async function openJobForm(id = null) {
+  editId = id;
+  let j = {};
+  if (id) {
+    j = await fetch(`${API}/jobs/${id}`).then(r=>r.json());
+  }
+  document.getElementById('drawer').style.display = 'flex';
+  document.getElementById('drawer').className = 'overlay';
+  document.getElementById('drawer').innerHTML = `
+    <div class="drawer">
+      <div class="drawer-head">
+        <div class="drawer-title">${id ? '✏️ Sửa tin tuyển dụng' : '➕ Đăng tin tuyển dụng mới'}</div>
+        <button class="xbtn" onclick="closeDrawer()">×</button>
+      </div>
+      <div id="fAlert"></div>
+      <div class="fg2"><label>Tên công ty / đơn vị <span>*</span></label><input type="text" id="f_company" value="${esc(j.company||'')}" placeholder="Công ty TNHH ABC"/></div>
+      <div class="fg2"><label>Vị trí tuyển dụng <span>*</span></label><input type="text" id="f_title" value="${esc(j.title||'')}" placeholder="Công nhân may, Bảo vệ, Lái xe..."/></div>
+      <div class="frow">
+        <div class="fg2"><label>Số lượng cần tuyển</label><input type="number" id="f_qty" value="${j.qty||1}" min="1"/></div>
+        <div class="fg2"><label>Ngành nghề</label>
+          <select id="f_cat">${['Sản xuất','Nông nghiệp','Dịch vụ','Bảo vệ','Kho vận','Khác'].map(c=>`<option ${j.category===c?'selected':''}>${c}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg2"><label>Mức lương / thu nhập</label><input type="text" id="f_salary" value="${esc(j.salary||'')}" placeholder="VD: 6–8 triệu/tháng"/></div>
+        <div class="fg2"><label>Hình thức làm việc</label>
+          <select id="f_wtype">${['Toàn thời gian','Bán thời gian','Thời vụ'].map(t=>`<option ${j.work_type===t?'selected':''}>${t}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="fg2"><label>Địa chỉ làm việc</label><input type="text" id="f_addr" value="${esc(j.address||'')}" placeholder="KCN Dầu Tiếng, xã Long Hòa..."/></div>
+      <div class="fg2"><label>Mô tả công việc & yêu cầu</label><textarea id="f_desc">${esc(j.description||'')}</textarea></div>
+      <div class="frow">
+        <div class="fg2"><label>Người liên hệ <span>*</span></label><input type="text" id="f_contact" value="${esc(j.contact||'')}" placeholder="Anh/Chị Nguyễn Văn A"/></div>
+        <div class="fg2"><label>Số điện thoại <span>*</span></label><input type="tel" id="f_phone" value="${esc(j.phone||'')}" placeholder="0909 123 456"/></div>
+      </div>
+      <div class="frow">
+        <div class="fg2"><label>Email (nếu có)</label><input type="email" id="f_email" value="${esc(j.email||'')}" placeholder="tuyendung@congty.com"/></div>
+        <div class="fg2"><label>Gắn nhãn</label>
+          <select id="f_badge">
+            <option value="" ${!j.badge?'selected':''}>Thường</option>
+            <option value="new" ${j.badge==='new'?'selected':''}>🆕 Mới đăng</option>
+            <option value="hot" ${j.badge==='hot'?'selected':''}>🔥 Nổi bật</option>
+            <option value="urgent" ${j.badge==='urgent'?'selected':''}>⚠️ Tuyển gấp</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-save" id="fSaveBtn" onclick="saveJob()">${id ? '💾 Lưu thay đổi' : '📢 Đăng tin ngay'}</button>
+    </div>`;
+  document.getElementById('drawer').onclick = e => { if(e.target===document.getElementById('drawer')) closeDrawer(); };
+}
+
+async function saveJob() {
+  const btn = document.getElementById('fSaveBtn');
+  const body = {
+    company: document.getElementById('f_company').value.trim(),
+    title: document.getElementById('f_title').value.trim(),
+    qty: document.getElementById('f_qty').value,
+    category: document.getElementById('f_cat').value,
+    salary: document.getElementById('f_salary').value.trim(),
+    work_type: document.getElementById('f_wtype').value,
+    address: document.getElementById('f_addr').value.trim(),
+    description: document.getElementById('f_desc').value.trim(),
+    contact: document.getElementById('f_contact').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    email: document.getElementById('f_email').value.trim(),
+    badge: document.getElementById('f_badge').value,
+  };
+  if (!body.company || !body.title || !body.contact || !body.phone) {
+    return showFA('Vui lòng điền đầy đủ các trường bắt buộc (*).', 'err');
+  }
+  btn.disabled = true; btn.textContent = 'Đang lưu...';
+  try {
+    const url = editId ? `${API}/admin/jobs/${editId}` : `${API}/admin/jobs`;
+    const method = editId ? 'PUT' : 'POST';
+    const r = await authFetch(url, method, body);
+    const d = await r.json();
+    if (r.ok) { closeDrawer(); loadJobs(); loadStats(); }
+    else showFA(d.error || 'Có lỗi xảy ra.', 'err');
+  } catch(e) { showFA('Không thể kết nối server.', 'err'); }
+  btn.disabled = false;
+}
+
+async function delJob(id) {
+  if (!confirm('Xóa tin tuyển dụng này?')) return;
+  await authFetch(`${API}/admin/jobs/${id}`, 'DELETE');
+  loadJobs(); loadStats();
+}
+
+// ── Workers ──────────────────────────────────────────────────────
+async function loadWorkers() {
+  document.getElementById('workersList').innerHTML = '<div class="loading">Đang tải...</div>';
+  try {
+    const d = await authGet(`${API}/workers`).then(r=>r.json());
+    if (!d.workers.length) { document.getElementById('workersList').innerHTML = '<div class="empty">Chưa có hồ sơ nào. Nhấn "+ Thêm hồ sơ mới" để bắt đầu.</div>'; return; }
+    document.getElementById('workersList').innerHTML = d.workers.map(w => `
+      <div class="rec">
+        <div class="rec-head">
+          <div>
+            <div class="rec-title">${esc(w.name)}</div>
+            <div style="font-size:13px;color:#1563a8;font-weight:600">💼 ${esc(w.seek)}</div>
+          </div>
+        </div>
+        <div class="rec-meta">📍 ${esc(w.location||'—')} &nbsp;|&nbsp; 📞 ${esc(w.phone)} &nbsp;|&nbsp; ${w.age?w.age+' tuổi':''}  ${esc(w.gender||'')} &nbsp;|&nbsp; 🗓 ${fmt(w.created_at)}</div>
+        ${w.experience?`<div style="font-size:13px;color:#64748b;margin-bottom:10px">📝 ${esc(w.experience)}</div>`:''}
+        <div class="rec-actions">
+          <button class="btn-edit" onclick="openWorkerForm(${w.id})">✏️ Sửa</button>
+          <button class="btn-del" onclick="delWorker(${w.id})">🗑️ Xóa</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { document.getElementById('workersList').innerHTML = '<div class="empty">Lỗi tải dữ liệu</div>'; }
+}
+
+async function openWorkerForm(id = null) {
+  editId = id;
+  let w = {};
+  if (id) {
+    const d = await authGet(`${API}/workers`).then(r=>r.json());
+    w = d.workers.find(x=>x.id===id) || {};
+  }
+  const xas = ['TT Dầu Tiếng','Xã Minh Hòa','Xã Minh Tân','Xã Minh Thạnh','Xã Định An','Xã Định Thành','Xã Định Hiệp','Xã Long Hòa','Xã Long Tân','Xã Thanh An','Xã Thanh Tuyền','Xã Hòa Lợi'];
+  document.getElementById('drawer').style.display = 'flex';
+  document.getElementById('drawer').className = 'overlay';
+  document.getElementById('drawer').innerHTML = `
+    <div class="drawer">
+      <div class="drawer-head">
+        <div class="drawer-title">${id ? '✏️ Sửa hồ sơ tìm việc' : '➕ Thêm hồ sơ tìm việc mới'}</div>
+        <button class="xbtn" onclick="closeDrawer()">×</button>
+      </div>
+      <div id="fAlert"></div>
+      <div class="fg2"><label>Họ và tên <span>*</span></label><input type="text" id="w_name" value="${esc(w.name||'')}" placeholder="Nguyễn Văn A"/></div>
+      <div class="frow">
+        <div class="fg2"><label>Tuổi</label><input type="number" id="w_age" value="${w.age||''}" min="15" max="65" placeholder="25"/></div>
+        <div class="fg2"><label>Giới tính</label><select id="w_gender"><option ${w.gender!=='Nữ'?'selected':''}>Nam</option><option ${w.gender==='Nữ'?'selected':''}>Nữ</option></select></div>
+      </div>
+      <div class="fg2"><label>Vị trí tìm kiếm <span>*</span></label><input type="text" id="w_seek" value="${esc(w.seek||'')}" placeholder="Công nhân sản xuất, bán hàng..."/></div>
+      <div class="fg2"><label>Kinh nghiệm / kỹ năng</label><textarea id="w_exp">${esc(w.experience||'')}</textarea></div>
+      <div class="frow">
+        <div class="fg2"><label>Địa bàn cư trú</label>
+          <select id="w_loc">${xas.map(x=>`<option ${w.location===x?'selected':''}>${x}</option>`).join('')}</select>
+        </div>
+        <div class="fg2"><label>Có thể đi làm</label>
+          <select id="w_avail">${['Có thể đi làm ngay','Cần báo trước 1 tuần','Cần báo trước 2 tuần','Cần thỏa thuận thêm'].map(a=>`<option ${w.available===a?'selected':''}>${a}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="fg2"><label>Số điện thoại <span>*</span></label><input type="tel" id="w_phone" value="${esc(w.phone||'')}" placeholder="0909 123 456"/></div>
+      <button class="btn-save" id="fSaveBtn" onclick="saveWorker()">${id ? '💾 Lưu thay đổi' : '💾 Thêm hồ sơ'}</button>
+    </div>`;
+  document.getElementById('drawer').onclick = e => { if(e.target===document.getElementById('drawer')) closeDrawer(); };
+}
+
+async function saveWorker() {
+  const btn = document.getElementById('fSaveBtn');
+  const body = {
+    name: document.getElementById('w_name').value.trim(),
+    age: document.getElementById('w_age').value,
+    gender: document.getElementById('w_gender').value,
+    seek: document.getElementById('w_seek').value.trim(),
+    experience: document.getElementById('w_exp').value.trim(),
+    location: document.getElementById('w_loc').value,
+    phone: document.getElementById('w_phone').value.trim(),
+    available: document.getElementById('w_avail').value,
+  };
+  if (!body.name || !body.seek || !body.phone) return showFA('Vui lòng điền đầy đủ các trường bắt buộc (*).', 'err');
+  btn.disabled = true; btn.textContent = 'Đang lưu...';
+  try {
+    const url = editId ? `${API}/admin/workers/${editId}` : `${API}/admin/workers`;
+    const method = editId ? 'PUT' : 'POST';
+    const r = await authFetch(url, method, body);
+    const d = await r.json();
+    if (r.ok) { closeDrawer(); loadWorkers(); loadStats(); }
+    else showFA(d.error || 'Có lỗi xảy ra.', 'err');
+  } catch(e) { showFA('Không thể kết nối.', 'err'); }
+  btn.disabled = false;
+}
+
+async function delWorker(id) {
+  if (!confirm('Xóa hồ sơ này?')) return;
+  await authFetch(`${API}/admin/workers/${id}`, 'DELETE');
+  loadWorkers(); loadStats();
+}
+
+// ── Utils ────────────────────────────────────────────────────────
+function closeDrawer() { document.getElementById('drawer').style.display='none'; editId=null; }
+function showSection(el, sec) {
+  document.querySelectorAll('.anav-item').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('s-jobs').style.display = sec==='s-jobs'?'block':'none';
+  document.getElementById('s-workers').style.display = sec==='s-workers'?'block':'none';
+  if (sec==='s-workers') loadWorkers();
+  if (sec==='s-jobs') loadJobs();
+}
+function showFA(msg, type) { const el=document.getElementById('fAlert'); el.className='alert '+type; el.textContent=msg; }
+function authFetch(url, method='GET', body=null) {
+  const opts = { method, headers: {'Authorization':'Bearer '+token,'Content-Type':'application/json'} };
+  if (body) opts.body = JSON.stringify(body);
+  return fetch(url, opts);
+}
+function authGet(url) { return fetch(url, { headers: {'Authorization':'Bearer '+token} }); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmt(d){ try{ return new Date(d).toLocaleDateString('vi-VN'); }catch{ return d||''; } }
+</script>
+</body>
+</html>
