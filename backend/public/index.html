@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Sàn Giới Thiệu Việc Làm Xã Dầu Tiếng – Kết nối doanh nghiệp và người lao động, xã Dầu Tiếng, TP.HCM"/>
+<title>Việc Làm Dầu Tiếng</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;font-size:15px}
+
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#1563a8,#0a3660);color:#fff}
+.header-main{max-width:860px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-box{width:48px;height:48px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.site-name{font-size:17px;font-weight:700;line-height:1.25}
+.site-sub{font-size:12px;opacity:.8;margin-top:3px}
+.header-stats{display:flex;gap:20px;flex-shrink:0}
+.hs{text-align:center}
+.hs-n{font-size:22px;font-weight:800}
+.hs-l{font-size:11px;opacity:.75;white-space:nowrap}
+.header-bar{background:rgba(0,0,0,.25);padding:7px 16px;font-size:12px;text-align:center}
+
+/* ── Tabs ── */
+.tabs{background:#fff;border-bottom:2px solid #e2e8f0;position:sticky;top:0;z-index:40;box-shadow:0 2px 6px rgba(0,0,0,.07)}
+.tabs-inner{max-width:860px;margin:0 auto;display:flex}
+.tab{flex:1;padding:13px 8px;text-align:center;font-size:14px;font-weight:500;color:#718096;cursor:pointer;border:none;background:transparent;border-bottom:3px solid transparent;transition:all .15s}
+.tab.active{color:#1563a8;border-bottom-color:#1563a8}
+
+/* ── Container ── */
+.wrap{max-width:860px;margin:0 auto;padding:14px 14px 30px}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.sc{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.sc-n{font-size:22px;font-weight:800;color:#1563a8}
+.sc-l{font-size:12px;color:#718096;margin-top:2px}
+
+/* ── Notice ── */
+.notice{background:#fffbeb;border:1px solid #fbbf24;border-radius:8px;padding:9px 14px;font-size:13px;color:#78350f;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
+
+/* ── Search ── */
+.searchbox{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.search-row{display:flex;gap:8px;flex-wrap:wrap}
+.si{flex:1;min-width:160px;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none}
+.si:focus{border-color:#1563a8}
+.ss{padding:9px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;background:#fff;outline:none;cursor:pointer}
+.btn-srch{background:#1563a8;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+
+/* ── Filter chips ── */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096;transition:all .15s}
+.chip.active{background:#dbeafe;border-color:#1563a8;color:#1563a8;font-weight:600}
+
+/* ── Job card ── */
+.job-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;border-left:4px solid #e2e8f0;transition:box-shadow .15s,transform .1s}
+.job-card:hover{box-shadow:0 4px 16px rgba(21,99,168,.13);transform:translateY(-1px)}
+.job-card.bl-hot{border-left-color:#ea580c}
+.job-card.bl-new{border-left-color:#16a34a}
+.job-card.bl-urgent{border-left-color:#dc2626}
+.jh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.jcompany{font-size:13px;color:#1563a8;font-weight:600}
+.badge{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:700}
+.b-hot{background:#fff7ed;color:#c2410c}
+.b-new{background:#f0fdf4;color:#15803d}
+.b-urgent{background:#fef2f2;color:#b91c1c}
+.jtitle{font-size:15px;font-weight:700;margin-bottom:7px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.tag{font-size:12px;padding:3px 10px;border-radius:20px;background:#f1f5f9;color:#475569}
+.tag.green{background:#f0fdf4;color:#15803d;font-weight:600}
+.jfooter{display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;border-top:1px solid #f1f5f9;padding-top:7px;margin-top:2px}
+
+/* ── Worker card ── */
+.w-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.w-top{display:flex;align-items:center;gap:12px;margin-bottom:7px}
+.avatar{width:42px;height:42px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#1563a8;flex-shrink:0}
+.wname{font-size:15px;font-weight:700}
+.wseek{font-size:13px;color:#64748b;margin-top:1px}
+.wexp{font-size:13px;color:#94a3b8;margin-bottom:8px}
+.wfooter{display:flex;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:7px;font-size:12px}
+.avail{background:#f0fdf4;color:#15803d;padding:3px 12px;border-radius:20px;font-weight:600}
+
+/* ── Modal ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:100}
+@media(min-width:580px){.overlay{align-items:center;padding:20px}}
+.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:20px}
+@media(min-width:580px){.modal{border-radius:16px}}
+.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
+.mtitle{font-size:17px;font-weight:800}
+.xbtn{background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8;line-height:1}
+.mco{background:#dbeafe;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:14px;font-weight:700;color:#1563a8}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.di{background:#f8faff;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;text-align:center}
+.ds h4{font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.ds p{font-size:14px;line-height:1.6;margin-bottom:12px}
+.cbox{background:#dbeafe;border-radius:10px;padding:14px}
+.cbox h4{font-size:13px;font-weight:700;color:#1563a8;margin-bottom:10px}
+.crow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cicon{width:32px;height:32px;background:#1563a8;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ph{font-size:19px;font-weight:800;color:#1563a8}
+.btn-call{display:block;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;width:100%;margin-top:8px;text-decoration:none}
+
+/* ── Empty / loading ── */
+.empty{text-align:center;padding:40px 20px;color:#cbd5e1;font-size:14px}
+.loading{text-align:center;padding:30px;color:#94a3b8;font-size:14px}
+
+/* ── Footer ── */
+footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font-size:13px;margin-top:10px}
+
+@media(max-width:480px){
+  .header-stats{display:none}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .search-row{flex-direction:column}
+  .si,.ss,.btn-srch{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-main">
+    <div class="logo-area">
+      <div class="logo-box">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1563a8" stroke-width="2.2">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
+      <div>
+        <div class="site-name">Sàn Giới Thiệu Việc Làm</div>
+        <div class="site-sub">Phòng Lao động – TB&XH Xã Dầu Tiếng, TP.Hồ Chí Minh</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="hs"><div class="hs-n" id="hj">—</div><div class="hs-l">Tin tuyển dụng</div></div>
+      <div class="hs"><div class="hs-n" id="hp">—</div><div class="hs-l">Vị trí cần tuyển</div></div>
+      <div class="hs"><div class="hs-n" id="hc">—</div><div class="hs-l">Doanh nghiệp</div></div>
+    </div>
+  </div>
+  <div class="header-bar">
+    Người lao động xem tin và <strong>liên hệ trực tiếp</strong> với doanh nghiệp &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tabs-inner">
+    <button class="tab active" onclick="switchTab('jobs')">💼 Tin tuyển dụng</button>
+    <button class="tab" onclick="switchTab('workers')">👤 Người tìm việc</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- TAB JOBS -->
+  <div id="tab-jobs">
+    <div class="stats">
+      <div class="sc"><div class="sc-n" id="sj">—</div><div class="sc-l">Tin tuyển dụng</div></div>
+      <div class="sc"><div class="sc-n" id="sp">—</div><div class="sc-l">Vị trí cần tuyển</div></div>
+      <div class="sc"><div class="sc-n" id="sc">—</div><div class="sc-l">Doanh nghiệp</div></div>
+    </div>
+    <div class="notice">
+      <span>ℹ️</span>
+      <span>Nhấn vào tin để xem thông tin và <strong>số điện thoại liên hệ trực tiếp</strong> với doanh nghiệp. Miễn phí, không qua trung gian.</span>
+    </div>
+    <div class="searchbox">
+      <div class="search-row">
+        <input class="si" type="text" id="jsearch" placeholder="Tìm công việc, công ty, địa chỉ..." oninput="debJ()"/>
+        <select class="ss" id="jcat" onchange="loadJobs()">
+          <option value="">Tất cả ngành</option>
+          <option>Sản xuất</option><option>Nông nghiệp</option><option>Dịch vụ</option>
+          <option>Bảo vệ</option><option>Kho vận</option><option>Khác</option>
+        </select>
+        <button class="btn-srch" onclick="loadJobs()">Tìm kiếm</button>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip active" onclick="setWT(this,'')">Tất cả</div>
+      <div class="chip" onclick="setWT(this,'Toàn thời gian')">Toàn thời gian</div>
+      <div class="chip" onclick="setWT(this,'Bán thời gian')">Bán thời gian</div>
+      <div class="chip" onclick="setWT(this,'Thời vụ')">Thời vụ</div>
+    </div>
+    <div id="jobList"><div class="loading">Đang tải...</div></div>
+  </div>
+
+  <!-- TAB WORKERS -->
+  <div id="tab-workers" style="display:none">
+    <div class="notice"><span>ℹ️</span><span>Danh sách người lao động đang tìm việc. Doanh nghiệp liên hệ Phòng LĐ-TB&XH để được hỗ trợ kết nối.</span></div>
+    <div class="searchbox">
+      <div class="search-row">
+        <input class="si" type="text" id="wsearch" placeholder="Tìm theo tên, nghề, địa bàn..." oninput="debW()"/>
+        <button class="btn-srch" onclick="loadWorkers()">Tìm kiếm</button>
+      </div>
+    </div>
+    <div id="workerList"><div class="loading">Đang tải...</div></div>
+  </div>
+
+</div>
+
+<div id="modal" style="display:none"></div>
+
+<footer>
+  <p>📍 Phòng Lao động – Thương binh & Xã hội Xã Dầu Tiếng, TP.Hồ Chí Minh</p>
+  <p style="margin-top:5px;font-size:12px">Trang thông tin việc làm miễn phí – Không thu phí môi giới dưới mọi hình thức</p>
+</footer>
+
+<script>
+const API = '/api';
+let wt = '', jDeb, wDeb;
+
+async function loadStats() {
+  try {
+    const d = await fetch(`${API}/stats`).then(r=>r.json());
+    ['hj','sj'].forEach(id => document.getElementById(id).textContent = d.total_jobs);
+    ['hp','sp'].forEach(id => document.getElementById(id).textContent = d.total_qty);
+    ['hc','sc'].forEach(id => document.getElementById(id).textContent = d.total_companies);
+  } catch(e){}
+}
+
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', ['jobs','workers'][i]===t));
+  document.getElementById('tab-jobs').style.display = t==='jobs'?'block':'none';
+  document.getElementById('tab-workers').style.display = t==='workers'?'block':'none';
+  if(t==='workers') loadWorkers();
+}
+
+async function loadJobs() {
+  const s = document.getElementById('jsearch').value;
+  const c = document.getElementById('jcat').value;
+  const params = new URLSearchParams({search:s, category:c, work_type:wt});
+  document.getElementById('jobList').innerHTML = '<div class="loading">Đang tải...</div>';
+  try {
+    const d = await fetch(`${API}/jobs?${params}`).then(r=>r.json());
+    document.getElementById('sj').textContent = d.total;
+    document.getElementById('sp').textContent = d.total_qty;
+    document.getElementById('sc').textContent = d.total_companies;
+    document.getElementById('hj').textContent = d.total;
+    document.getElementById('hp').textContent = d.total_qty;
+    document.getElementById('hc').textContent = d.total_companies;
+    if (!d.jobs.length) { document.getElementById('jobList').innerHTML = '<div class="empty">Không tìm thấy tin phù hợp</div>'; return; }
+    document.getElementById('jobList').innerHTML = d.jobs.map(j => `
+      <div class="job-card ${j.badge?'bl-'+j.badge:''}" onclick="openJob(${j.id})">
+        <div class="jh">
+          <div class="jcompany">${esc(j.company)}</div>
+          ${j.badge?`<span class="badge b-${j.badge}">${j.badge==='hot'?'🔥 Nổi bật':j.badge==='new'?'🆕 Mới đăng':'⚠️ Tuyển gấp'}</span>`:''}
+        </div>
+        <div class="jtitle">${esc(j.title)}</div>
+        <div class="tags">
+          <span class="tag green">👉 ${esc(j.salary||'Thỏa thuận')}</span>
+          <span class="tag">👥 ${j.qty} người</span>
+          <span class="tag">${esc(j.work_type)}</span>
+          <span class="tag">${esc(j.category)}</span>
+        </div>
+        <div class="jfooter">
+          <span>📍 ${esc(j.address||'Dầu Tiếng, Bình Dương')}</span>
+          <span>${fmt(j.created_at)}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) { document.getElementById('jobList').innerHTML = '<div class="empty">Lỗi tải dữ liệu</div>'; }
+}
+
+async function openJob(id) {
+  try {
+    const j = await fetch(`${API}/jobs/${id}`).then(r=>r.json());
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modal').className = 'overlay';
+    document.getElementById('modal').innerHTML = `
+      <div class="modal">
+        <div class="mhead">
+          <div class="mtitle">${esc(j.title)}</div>
+          <button class="xbtn" onclick="closeM()">×</button>
+        </div>
+        <div class="mco">${esc(j.company)}</div>
+        <div class="dgrid">
+          <div class="di" style="color:#15803d;background:#f0fdf4">👉 ${esc(j.salary||'Thỏa thuận')}</div>
+          <div class="di">👥 ${j.qty} người</div>
+          <div class="di">${esc(j.work_type)}</div>
+          <div class="di">${esc(j.category)}</div>
+        </div>
+        ${j.address?`<div class="ds"><h4>Địa điểm</h4><p>📍 ${esc(j.address)}</p></div>`:''}
+        ${j.description?`<div class="ds"><h4>Mô tả công việc</h4><p>${esc(j.description).replace(/\n/g,'<br>')}</p></div>`:''}
+        <div class="cbox">
+          <h4>📞 Liên hệ ứng tuyển trực tiếp</h4>
+          <div class="crow">
+            <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <span style="font-weight:700;font-size:14px">${esc(j.contact)}</span>
+          </div>
+          <div class="crow">
+            <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.16 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+            <div class="ph">${esc(j.phone)}</div>
+          </div>
+          ${j.email?`<div class="crow"><div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><span>${esc(j.email)}</span></div>`:''}
+          <a class="btn-call" href="tel:${j.phone.replace(/\s/g,'')}">📞 Gọi ngay cho doanh nghiệp</a>
+        </div>
+        <p style="text-align:center;font-size:12px;color:#cbd5e1;margin-top:10px">Đăng ngày ${fmt(j.created_at)}</p>
+      </div>`;
+    document.getElementById('modal').onclick = e => { if(e.target===document.getElementById('modal')) closeM(); };
+  } catch(e) { alert('Không thể tải chi tiết. Vui lòng thử lại.'); }
+}
+
+function closeM() { document.getElementById('modal').style.display='none'; }
+
+async function loadWorkers() {
+  const s = document.getElementById('wsearch').value;
+  document.getElementById('workerList').innerHTML = '<div class="loading">Đang tải...</div>';
+  try {
+    const d = await fetch(`${API}/workers?search=${encodeURIComponent(s)}`).then(r=>r.json());
+    if (!d.workers.length) { document.getElementById('workerList').innerHTML = '<div class="empty">Chưa có hồ sơ tìm việc nào</div>'; return; }
+    document.getElementById('workerList').innerHTML = d.workers.map(w => `
+      <div class="w-card">
+        <div class="w-top">
+          <div class="avatar">${w.name.trim().split(' ').pop()[0].toUpperCase()}</div>
+          <div>
+            <div class="wname">${esc(w.name)}${w.age?', '+w.age+' tuổi':''} (${esc(w.gender||'Nam')})</div>
+            <div class="wseek">💼 ${esc(w.seek)}</div>
+          </div>
+        </div>
+        ${w.experience?`<div class="wexp">📝 ${esc(w.experience)}</div>`:''}
+        <div class="wfooter">
+          <span class="avail">${esc(w.available||'Sẵn sàng')}</span>
+          <span style="color:#94a3b8">📍 ${esc(w.location||'Dầu Tiếng')}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) { document.getElementById('workerList').innerHTML = '<div class="empty">Lỗi tải dữ liệu</div>'; }
+}
+
+function setWT(el,v){ document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); wt=v; loadJobs(); }
+function debJ(){ clearTimeout(jDeb); jDeb=setTimeout(loadJobs,380); }
+function debW(){ clearTimeout(wDeb); wDeb=setTimeout(loadWorkers,380); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmt(d){ try{ return new Date(d).toLocaleDateString('vi-VN'); }catch{ return d||''; } }
+
+loadStats(); loadJobs();
+</script>
+</body>
+</html>
