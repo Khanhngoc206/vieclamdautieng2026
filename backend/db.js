@@ -1,4 +1,4 @@
-// db.js - PostgreSQL + hỗ trợ ảnh poster
+// db.js - PostgreSQL + analytics tables
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -7,6 +7,7 @@ const pool = new Pool({
 });
 
 async function init() {
+  // Bảng jobs
   await pool.query(`
     CREATE TABLE IF NOT EXISTS jobs (
       id          SERIAL PRIMARY KEY,
@@ -26,9 +27,9 @@ async function init() {
       created_at  TIMESTAMP DEFAULT NOW()
     );
   `);
-
   await pool.query(`ALTER TABLE jobs ADD COLUMN IF NOT EXISTS poster_url TEXT DEFAULT '';`);
 
+  // Bảng workers
   await pool.query(`
     CREATE TABLE IF NOT EXISTS workers (
       id          SERIAL PRIMARY KEY,
@@ -44,6 +45,7 @@ async function init() {
     );
   `);
 
+  // Bảng admins
   await pool.query(`
     CREATE TABLE IF NOT EXISTS admins (
       id       SERIAL PRIMARY KEY,
@@ -52,6 +54,26 @@ async function init() {
     );
   `);
 
+  // Bảng thống kê lượt xem theo ngày
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS daily_stats (
+      date        DATE PRIMARY KEY,
+      total_views INTEGER DEFAULT 0
+    );
+  `);
+
+  // Bảng unique visitors (theo IP hash + ngày + trang)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS page_views (
+      id       SERIAL PRIMARY KEY,
+      date     DATE NOT NULL,
+      page     TEXT NOT NULL,
+      ip_hash  TEXT NOT NULL,
+      UNIQUE(date, page, ip_hash)
+    );
+  `);
+
+  // Admin mặc định
   await pool.query(`
     INSERT INTO admins (username, password)
     VALUES ('admin', 'DauTieng@2024')

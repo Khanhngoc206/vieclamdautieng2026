@@ -1,4 +1,4 @@
-// server.js - PostgreSQL + poster_url
+// server.js - PostgreSQL + poster_url + analytics
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -17,6 +17,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/', rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
 
+// ── Middleware đếm lượt truy cập ──────────────────────────────
+app.use(async (req, res, next) => {
+  // Chỉ đếm request GET vào trang (không đếm API calls & static files)
+  if (req.method === 'GET' && !req.path.startsWith('/api/') && !req.path.includes('.')) {
+    try {
+      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+      const page = req.path === '/' ? '/index' : req.path;
+      await pool.query(`
+        INSERT INTO page_views (date, page, ip_hash)
+        VALUES ($1, $2, md5($3))
+        ON CONFLICT DO NOTHING
+      `, [today, page, ip + today + page]);
+      // Tổng lượt xem (kể cả trùng IP)
+      await pool.query(`
+        INSERT INTO daily_stats (date, total_views)
+        VALUES ($1, 1)
+        ON CONFLICT (date) DO UPDATE SET total_views = daily_stats.total_views + 1
+      `, [today]);
+    } catch(e) {}
+  }
+  next();
+});
+
+// ── Auth ───────────────────────────────────────────────────────
 function requireAdmin(req, res, next) {
   const auth = req.headers['authorization'] || '';
   if (!auth.startsWith('Bearer ')) return res.status(401).json({ error: 'Cần đăng nhập.' });
@@ -28,16 +53,12 @@ function requireAdmin(req, res, next) {
 }
 
 // ── PUBLIC ─────────────────────────────────────────────────────
-
 app.get('/api/jobs', async (req, res) => {
   try {
     const { search = '', category = '', work_type = '' } = req.query;
     let sql = 'SELECT * FROM jobs WHERE 1=1';
     const p = [];
-    if (search) {
-      p.push(`%${search}%`);
-      sql += ` AND (title ILIKE $${p.length} OR company ILIKE $${p.length} OR address ILIKE $${p.length})`;
-    }
+    if (search) { p.push(`%${search}%`); sql += ` AND (title ILIKE $${p.length} OR company ILIKE $${p.length} OR address ILIKE $${p.length})`; }
     if (category) { p.push(category); sql += ` AND category = $${p.length}`; }
     if (work_type) { p.push(work_type); sql += ` AND work_type = $${p.length}`; }
     sql += ' ORDER BY created_at DESC';
@@ -49,6 +70,13 @@ app.get('/api/jobs', async (req, res) => {
 
 app.get('/api/jobs/:id', async (req, res) => {
   try {
+    // Đếm lượt xem chi tiết tin
+    const today = new Date().toISOString().slice(0, 10);
+    await pool.query(`
+      INSERT INTO daily_stats (date, total_views)
+      VALUES ($1, 1)
+      ON CONFLICT (date) DO UPDATE SET total_views = daily_stats.total_views + 1
+    `, [today]).catch(()=>{});
     const { rows } = await pool.query('SELECT * FROM jobs WHERE id = $1', [req.params.id]);
     if (!rows.length) return res.status(404).json({ error: 'Không tìm thấy.' });
     res.json(rows[0]);
@@ -72,6 +100,38 @@ app.get('/api/stats', async (req, res) => {
     const j = (await pool.query('SELECT COUNT(*) as c, SUM(qty) as q, COUNT(DISTINCT company) as co FROM jobs')).rows[0];
     const w = (await pool.query('SELECT COUNT(*) as c FROM workers')).rows[0];
     res.json({ total_jobs: parseInt(j.c)||0, total_qty: parseInt(j.q)||0, total_companies: parseInt(j.co)||0, total_workers: parseInt(w.c)||0 });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── ANALYTICS API (admin only) ─────────────────────────────────
+app.get('/api/admin/analytics', requireAdmin, async (req, res) => {
+  try {
+    // Tổng lượt truy cập
+    const total = (await pool.query('SELECT COALESCE(SUM(total_views),0) as t FROM daily_stats')).rows[0].t;
+    // Hôm nay
+    const today = new Date().toISOString().slice(0, 10);
+    const todayViews = (await pool.query('SELECT COALESCE(total_views,0) as t FROM daily_stats WHERE date=$1', [today])).rows[0]?.t || 0;
+    // Hôm qua
+    const yesterday = new Date(Date.now()-86400000).toISOString().slice(0, 10);
+    const yestViews = (await pool.query('SELECT COALESCE(total_views,0) as t FROM daily_stats WHERE date=$1', [yesterday])).rows[0]?.t || 0;
+    // 7 ngày gần nhất
+    const week = (await pool.query(`
+      SELECT date, total_views FROM daily_stats
+      WHERE date >= NOW() - INTERVAL '7 days'
+      ORDER BY date ASC
+    `)).rows;
+    // 30 ngày gần nhất
+    const month = (await pool.query(`
+      SELECT date, total_views FROM daily_stats
+      WHERE date >= NOW() - INTERVAL '30 days'
+      ORDER BY date ASC
+    `)).rows;
+    // Unique visitors hôm nay (theo IP hash)
+    const uniqueToday = (await pool.query('SELECT COUNT(DISTINCT ip_hash) as c FROM page_views WHERE date=$1', [today])).rows[0]?.c || 0;
+    // Unique visitors tuần này
+    const uniqueWeek = (await pool.query(`SELECT COUNT(DISTINCT ip_hash) as c FROM page_views WHERE date >= NOW() - INTERVAL '7 days'`)).rows[0]?.c || 0;
+
+    res.json({ total, todayViews, yestViews, uniqueToday, uniqueWeek, week, month });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
