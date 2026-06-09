@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="Sàn Giới Thiệu Việc Làm UBND Xã Dầu Tiếng – Kết nối doanh nghiệp và người lao động"/>
+<meta name="description" content="Sàn Giới Thiệu Việc Làm Xã Dầu Tiếng – Kết nối doanh nghiệp và người lao động"/>
 <title>Việc Làm Dầu Tiếng</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -15,9 +15,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .site-name{font-size:17px;font-weight:700;line-height:1.25}
 .site-sub{font-size:12px;opacity:.8;margin-top:3px}
 .header-stats{display:flex;gap:20px;flex-shrink:0}
-.hs{text-align:center}
-.hs-n{font-size:22px;font-weight:800}
-.hs-l{font-size:11px;opacity:.75;white-space:nowrap}
+.hs{text-align:center}.hs-n{font-size:22px;font-weight:800}.hs-l{font-size:11px;opacity:.75;white-space:nowrap}
 .header-bar{background:rgba(0,0,0,.25);padding:7px 16px;font-size:12px;text-align:center}
 .tabs{background:#fff;border-bottom:2px solid #e2e8f0;position:sticky;top:0;z-index:40;box-shadow:0 2px 6px rgba(0,0,0,.07)}
 .tabs-inner{max-width:900px;margin:0 auto;display:flex}
@@ -26,8 +24,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .wrap{max-width:900px;margin:0 auto;padding:14px 14px 30px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .sc{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.sc-n{font-size:22px;font-weight:800;color:#1563a8}
-.sc-l{font-size:12px;color:#718096;margin-top:2px}
+.sc-n{font-size:22px;font-weight:800;color:#1563a8}.sc-l{font-size:12px;color:#718096;margin-top:2px}
 .notice{background:#fffbeb;border:1px solid #fbbf24;border-radius:8px;padding:9px 14px;font-size:13px;color:#78350f;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
 .searchbox{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .search-row{display:flex;gap:8px;flex-wrap:wrap}
@@ -38,8 +35,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .chip{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096;transition:all .15s}
 .chip.active{background:#dbeafe;border-color:#1563a8;color:#1563a8;font-weight:600}
-
-/* Job card - có poster */
 .job-card{background:#fff;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;border-left:4px solid #e2e8f0;transition:box-shadow .15s,transform .1s;overflow:hidden}
 .job-card:hover{box-shadow:0 4px 16px rgba(21,99,168,.13);transform:translateY(-1px)}
 .job-card.bl-hot{border-left-color:#ea580c}
@@ -50,50 +45,63 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .jh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
 .jcompany{font-size:13px;color:#1563a8;font-weight:600}
 .badge{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:700}
-.b-hot{background:#fff7ed;color:#c2410c}
-.b-new{background:#f0fdf4;color:#15803d}
-.b-urgent{background:#fef2f2;color:#b91c1c}
+.b-hot{background:#fff7ed;color:#c2410c}.b-new{background:#f0fdf4;color:#15803d}.b-urgent{background:#fef2f2;color:#b91c1c}
 .jtitle{font-size:15px;font-weight:700;margin-bottom:7px}
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
 .tag{font-size:12px;padding:3px 10px;border-radius:20px;background:#f1f5f9;color:#475569}
 .tag.green{background:#f0fdf4;color:#15803d;font-weight:600}
 .jfooter{display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;border-top:1px solid #f1f5f9;padding-top:7px;margin-top:2px}
-
-/* Worker card */
 .w-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .w-top{display:flex;align-items:center;gap:12px;margin-bottom:7px}
 .avatar{width:42px;height:42px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#1563a8;flex-shrink:0}
-.wname{font-size:15px;font-weight:700}
-.wseek{font-size:13px;color:#64748b;margin-top:1px}
+.wname{font-size:15px;font-weight:700}.wseek{font-size:13px;color:#64748b;margin-top:1px}
 .wexp{font-size:13px;color:#94a3b8;margin-bottom:8px}
 .wfooter{display:flex;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:7px;font-size:12px}
 .avail{background:#f0fdf4;color:#15803d;padding:3px 12px;border-radius:20px;font-weight:600}
-
 /* Modal */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:100}
 @media(min-width:580px){.overlay{align-items:center;padding:20px}}
 .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto}
 @media(min-width:580px){.modal{border-radius:16px}}
-.modal-poster{width:100%;max-height:320px;object-fit:contain;background:#f8faff;border-radius:16px 16px 0 0}
+.modal-poster{width:100%;max-height:300px;object-fit:contain;background:#f8faff}
 .modal-inner{padding:20px}
 .mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
-.mtitle{font-size:17px;font-weight:800}
-.xbtn{background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8;line-height:1}
+.mtitle{font-size:17px;font-weight:800}.xbtn{background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8;line-height:1}
 .mco{background:#dbeafe;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:14px;font-weight:700;color:#1563a8}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .di{background:#f8faff;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;text-align:center}
 .ds h4{font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .ds p{font-size:14px;line-height:1.6;margin-bottom:12px;white-space:pre-line}
-.cbox{background:#dbeafe;border-radius:10px;padding:14px}
+.cbox{background:#dbeafe;border-radius:10px;padding:14px;margin-bottom:12px}
 .cbox h4{font-size:13px;font-weight:700;color:#1563a8;margin-bottom:10px}
 .crow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cicon{width:32px;height:32px;background:#1563a8;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ph{font-size:19px;font-weight:800;color:#1563a8}
 .btn-call{display:block;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;width:100%;margin-top:8px;text-decoration:none}
+/* Nút ứng tuyển */
+.btn-apply{display:block;background:#1563a8;color:#fff;border:none;padding:13px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;width:100%;margin-top:10px}
+.btn-apply:hover{background:#0e4f8a}
+.divider{border:none;border-top:1px solid #e2e8f0;margin:14px 0}
+/* Form ứng tuyển */
+.apply-form{background:#f8faff;border-radius:10px;padding:16px;margin-top:10px;border:1.5px solid #dbeafe}
+.apply-title{font-size:14px;font-weight:700;color:#1563a8;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.fg{margin-bottom:10px}
+.fg label{font-size:12px;color:#64748b;display:block;margin-bottom:4px;font-weight:600}
+.fg label span{color:#dc2626}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff;transition:border-color .15s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#1563a8}
+.fg textarea{resize:vertical;min-height:70px}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-submit-apply{width:100%;background:#16a34a;color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .15s}
+.btn-submit-apply:hover{background:#15803d}
+.btn-submit-apply:disabled{background:#94a3b8;cursor:not-allowed}
+.apply-success{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;font-size:13px;color:#15803d;text-align:center;margin-top:10px;display:none}
+.apply-error{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;color:#b91c1c;margin-bottom:8px;display:none}
+.privacy-note{font-size:11px;color:#94a3b8;text-align:center;margin-top:8px;line-height:1.5}
 .empty{text-align:center;padding:40px 20px;color:#cbd5e1;font-size:14px}
 .loading{text-align:center;padding:30px;color:#94a3b8;font-size:14px}
 footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font-size:13px;margin-top:10px}
-@media(max-width:480px){.header-stats{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.search-row{flex-direction:column}.si,.ss,.btn-srch{width:100%}}
+@media(max-width:480px){.header-stats{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.search-row{flex-direction:column}.si,.ss,.btn-srch{width:100%}.frow2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -105,8 +113,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       </div>
       <div>
         <div class="site-name">Sàn Giới Thiệu Việc Làm</div>
-        <div class="site-sub">Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</div>
-      </div>
+        <div class="site-sub">Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</div>     
     </div>
     <div class="header-stats">
       <div class="hs"><div class="hs-n" id="hj">—</div><div class="hs-l">Tin tuyển dụng</div></div>
@@ -114,7 +121,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="hs"><div class="hs-n" id="hc">—</div><div class="hs-l">Doanh nghiệp</div></div>
     </div>
   </div>
-  <div class="header-bar">Người lao động xem tin và <strong>liên hệ trực tiếp</strong> với doanh nghiệp &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
+  <div class="header-bar">Xem tin và <strong>ứng tuyển trực tiếp</strong> hoặc <strong>liên hệ doanh nghiệp</strong> &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
 </div>
 
 <div class="tabs">
@@ -131,7 +138,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="sc"><div class="sc-n" id="sp">—</div><div class="sc-l">Vị trí cần tuyển</div></div>
       <div class="sc"><div class="sc-n" id="sc2">—</div><div class="sc-l">Doanh nghiệp</div></div>
     </div>
-    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem thông tin và <strong>số điện thoại liên hệ trực tiếp</strong>. Miễn phí, không qua trung gian.</span></div>
+    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem chi tiết, <strong>ứng tuyển</strong> hoặc <strong>gọi điện trực tiếp</strong> cho doanh nghiệp. Miễn phí!</span></div>
     <div class="searchbox">
       <div class="search-row">
         <input class="si" type="text" id="jsearch" placeholder="Tìm kiếm công việc, công ty, địa chỉ..." oninput="debJ()"/>
@@ -167,7 +174,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
 <div id="modal" style="display:none"></div>
 
 <footer>
-  <p>📍 Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</p>
+  <p>📍 Phòng Lao động – Thương binh & Xã hội Huyện Dầu Tiếng, Tỉnh Bình Dương</p>
   <p style="margin-top:5px;font-size:12px">Trang thông tin việc làm miễn phí – Không thu phí môi giới dưới mọi hình thức</p>
 </footer>
 
@@ -176,10 +183,11 @@ const API='/api';
 let wt='',jDeb,wDeb;
 
 async function loadStats(){
-  try{const d=await fetch(`${API}/stats`).then(r=>r.json());
-  ['hj','sj'].forEach(id=>document.getElementById(id).textContent=d.total_jobs);
-  ['hp','sp'].forEach(id=>document.getElementById(id).textContent=d.total_qty);
-  ['hc','sc2'].forEach(id=>document.getElementById(id).textContent=d.total_companies);
+  try{
+    const d=await fetch(`${API}/stats`).then(r=>r.json());
+    ['hj','sj'].forEach(id=>document.getElementById(id).textContent=d.total_jobs);
+    ['hp','sp'].forEach(id=>document.getElementById(id).textContent=d.total_qty);
+    ['hc','sc2'].forEach(id=>document.getElementById(id).textContent=d.total_companies);
   }catch(e){}
 }
 
@@ -205,7 +213,7 @@ async function loadJobs(){
     if(!d.jobs.length){document.getElementById('jobList').innerHTML='<div class="empty">Không tìm thấy tin phù hợp</div>';return;}
     document.getElementById('jobList').innerHTML=d.jobs.map(j=>`
       <div class="job-card ${j.badge?'bl-'+j.badge:''}" onclick="openJob(${j.id})">
-        ${j.poster_url?`<img class="poster-img" src="${esc(j.poster_url)}" alt="Poster tuyển dụng" loading="lazy" onerror="this.style.display='none'"/>`:''}
+        ${j.poster_url?`<img class="poster-img" src="${esc(j.poster_url)}" alt="Poster" loading="lazy" onerror="this.style.display='none'"/>`:''}
         <div class="job-body">
           <div class="jh">
             <div class="jcompany">${esc(j.company)}</div>
@@ -234,7 +242,7 @@ async function openJob(id){
     document.getElementById('modal').className='overlay';
     document.getElementById('modal').innerHTML=`
       <div class="modal">
-        ${j.poster_url?`<img class="modal-poster" src="${esc(j.poster_url)}" alt="Poster tuyển dụng" onerror="this.style.display='none'"/>`:''}
+        ${j.poster_url?`<img class="modal-poster" src="${esc(j.poster_url)}" alt="Poster" onerror="this.style.display='none'"/>`:''}
         <div class="modal-inner">
           <div class="mhead">
             <div class="mtitle">${esc(j.title)}</div>
@@ -247,10 +255,11 @@ async function openJob(id){
             <div class="di">${esc(j.work_type)}</div>
             <div class="di">${esc(j.category)}</div>
           </div>
-          ${j.address?`<div class="ds"><h4>Địa điểm</h4><p>📍 ${esc(j.address)}</p></div>`:''}
+          ${j.address?`<div class="ds"><h4>Địa điểm làm việc</h4><p>📍 ${esc(j.address)}</p></div>`:''}
           ${j.description?`<div class="ds"><h4>Mô tả công việc</h4><p>${esc(j.description)}</p></div>`:''}
+
           <div class="cbox">
-            <h4>📞 Liên hệ ứng tuyển trực tiếp</h4>
+            <h4>📞 Liên hệ trực tiếp với doanh nghiệp</h4>
             <div class="crow">
               <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <span style="font-weight:700;font-size:14px">${esc(j.contact)}</span>
@@ -259,14 +268,96 @@ async function openJob(id){
               <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.16 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
               <div class="ph">${esc(j.phone)}</div>
             </div>
-            ${j.email?`<div class="crow"><div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><span>${esc(j.email)}</span></div>`:''}
             <a class="btn-call" href="tel:${j.phone.replace(/\s/g,'')}">📞 Gọi ngay cho doanh nghiệp</a>
           </div>
-          <p style="text-align:center;font-size:12px;color:#cbd5e1;margin-top:10px">Đăng ngày ${fmt(j.created_at)}</p>
+
+          <hr class="divider"/>
+
+          <button class="btn-apply" onclick="toggleApplyForm(${j.id})">
+            📝 Ứng tuyển qua Phòng Lao động
+          </button>
+
+          <div id="applyForm_${j.id}" style="display:none">
+            <div class="apply-form">
+              <div class="apply-title">📋 Điền thông tin ứng tuyển</div>
+              <div class="apply-error" id="applyErr_${j.id}"></div>
+              <div class="frow2">
+                <div class="fg"><label>Họ và tên <span>*</span></label><input type="text" id="a_name_${j.id}" placeholder="Nguyễn Văn A"/></div>
+                <div class="fg"><label>Số điện thoại <span>*</span></label><input type="tel" id="a_phone_${j.id}" placeholder="0909 123 456"/></div>
+              </div>
+              <div class="frow2">
+                <div class="fg"><label>Tuổi</label><input type="number" id="a_age_${j.id}" placeholder="25" min="15" max="65"/></div>
+                <div class="fg"><label>Giới tính</label>
+                  <select id="a_gender_${j.id}"><option>Nam</option><option>Nữ</option></select>
+                </div>
+              </div>
+              <div class="fg"><label>Kinh nghiệm liên quan</label>
+                <textarea id="a_exp_${j.id}" placeholder="Mô tả ngắn kinh nghiệm, kỹ năng của bạn..."></textarea>
+              </div>
+              <div class="fg"><label>Ghi chú thêm</label>
+                <input type="text" id="a_note_${j.id}" placeholder="Thời gian có thể đi làm, yêu cầu đặc biệt..."/>
+              </div>
+              <button class="btn-submit-apply" id="a_btn_${j.id}" onclick="submitApply(${j.id})">
+                ✅ Gửi đơn ứng tuyển
+              </button>
+              <p class="privacy-note">🔒 Thông tin của bạn được bảo mật hoàn toàn, chỉ Phòng LĐ-TB&XH mới xem được để kết nối với doanh nghiệp phù hợp.</p>
+            </div>
+            <div class="apply-success" id="applyOk_${j.id}"></div>
+          </div>
+
+          <p style="text-align:center;font-size:12px;color:#cbd5e1;margin-top:14px">Đăng ngày ${fmt(j.created_at)}</p>
         </div>
       </div>`;
     document.getElementById('modal').onclick=e=>{if(e.target===document.getElementById('modal'))closeM();};
   }catch(e){alert('Không thể tải chi tiết.');}
+}
+
+function toggleApplyForm(id){
+  const form=document.getElementById(`applyForm_${id}`);
+  const btn=document.querySelector('.btn-apply');
+  if(form.style.display==='none'){
+    form.style.display='block';
+    if(btn)btn.textContent='▲ Đóng form ứng tuyển';
+    form.scrollIntoView({behavior:'smooth',block:'nearest'});
+  } else {
+    form.style.display='none';
+    if(btn)btn.textContent='📝 Ứng tuyển qua Phòng Lao động';
+  }
+}
+
+async function submitApply(jobId){
+  const name=document.getElementById(`a_name_${jobId}`).value.trim();
+  const phone=document.getElementById(`a_phone_${jobId}`).value.trim();
+  const age=document.getElementById(`a_age_${jobId}`).value;
+  const gender=document.getElementById(`a_gender_${jobId}`).value;
+  const experience=document.getElementById(`a_exp_${jobId}`).value.trim();
+  const note=document.getElementById(`a_note_${jobId}`).value.trim();
+  const errEl=document.getElementById(`applyErr_${jobId}`);
+  const okEl=document.getElementById(`applyOk_${jobId}`);
+  const btn=document.getElementById(`a_btn_${jobId}`);
+
+  errEl.style.display='none';
+  if(!name||!phone){errEl.textContent='Vui lòng điền họ tên và số điện thoại.';errEl.style.display='block';return;}
+
+  btn.disabled=true;btn.textContent='Đang gửi...';
+  try{
+    const r=await fetch(`${API}/apply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({job_id:jobId,name,phone,age:age||null,gender,experience,note})});
+    const d=await r.json();
+    if(r.ok){
+      document.getElementById(`applyForm_${jobId}`).style.display='none';
+      okEl.textContent='✅ '+d.message;
+      okEl.style.display='block';
+      btn.textContent='✅ Đã gửi đơn';
+    } else {
+      errEl.textContent=d.error||'Có lỗi xảy ra.';
+      errEl.style.display='block';
+      btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';
+    }
+  }catch(e){
+    errEl.textContent='Không thể kết nối. Vui lòng thử lại.';
+    errEl.style.display='block';
+    btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';
+  }
 }
 
 function closeM(){document.getElementById('modal').style.display='none';}

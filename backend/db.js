@@ -1,4 +1,4 @@
-// db.js - PostgreSQL + analytics tables
+// db.js - PostgreSQL + applications table
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -45,6 +45,22 @@ async function init() {
     );
   `);
 
+  // Bảng đơn ứng tuyển (KHÔNG hiển thị công khai)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS applications (
+      id          SERIAL PRIMARY KEY,
+      job_id      INTEGER REFERENCES jobs(id) ON DELETE CASCADE,
+      name        TEXT NOT NULL,
+      age         INTEGER,
+      gender      TEXT DEFAULT 'Nam',
+      phone       TEXT NOT NULL,
+      experience  TEXT DEFAULT '',
+      note        TEXT DEFAULT '',
+      status      TEXT DEFAULT 'new',
+      created_at  TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   // Bảng admins
   await pool.query(`
     CREATE TABLE IF NOT EXISTS admins (
@@ -54,15 +70,13 @@ async function init() {
     );
   `);
 
-  // Bảng thống kê lượt xem theo ngày
+  // Bảng thống kê
   await pool.query(`
     CREATE TABLE IF NOT EXISTS daily_stats (
       date        DATE PRIMARY KEY,
       total_views INTEGER DEFAULT 0
     );
   `);
-
-  // Bảng unique visitors (theo IP hash + ngày + trang)
   await pool.query(`
     CREATE TABLE IF NOT EXISTS page_views (
       id       SERIAL PRIMARY KEY,
@@ -73,7 +87,6 @@ async function init() {
     );
   `);
 
-  // Admin mặc định
   await pool.query(`
     INSERT INTO admins (username, password)
     VALUES ('admin', 'DauTieng@2024')
