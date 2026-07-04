@@ -1,4 +1,4 @@
-// db.js - PostgreSQL + applications table
+// db.js - PostgreSQL + multiple images per job
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -7,7 +7,6 @@ const pool = new Pool({
 });
 
 async function init() {
-  // Bảng jobs
   await pool.query(`
     CREATE TABLE IF NOT EXISTS jobs (
       id          SERIAL PRIMARY KEY,
@@ -20,6 +19,7 @@ async function init() {
       address     TEXT DEFAULT '',
       description TEXT DEFAULT '',
       poster_url  TEXT DEFAULT '',
+      images      TEXT DEFAULT '[]',
       contact     TEXT NOT NULL,
       phone       TEXT NOT NULL,
       email       TEXT DEFAULT '',
@@ -28,8 +28,8 @@ async function init() {
     );
   `);
   await pool.query(`ALTER TABLE jobs ADD COLUMN IF NOT EXISTS poster_url TEXT DEFAULT '';`);
+  await pool.query(`ALTER TABLE jobs ADD COLUMN IF NOT EXISTS images TEXT DEFAULT '[]';`);
 
-  // Bảng workers
   await pool.query(`
     CREATE TABLE IF NOT EXISTS workers (
       id          SERIAL PRIMARY KEY,
@@ -45,7 +45,6 @@ async function init() {
     );
   `);
 
-  // Bảng đơn ứng tuyển (KHÔNG hiển thị công khai)
   await pool.query(`
     CREATE TABLE IF NOT EXISTS applications (
       id          SERIAL PRIMARY KEY,
@@ -61,7 +60,6 @@ async function init() {
     );
   `);
 
-  // Bảng admins
   await pool.query(`
     CREATE TABLE IF NOT EXISTS admins (
       id       SERIAL PRIMARY KEY,
@@ -70,13 +68,13 @@ async function init() {
     );
   `);
 
-  // Bảng thống kê
   await pool.query(`
     CREATE TABLE IF NOT EXISTS daily_stats (
       date        DATE PRIMARY KEY,
       total_views INTEGER DEFAULT 0
     );
   `);
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS page_views (
       id       SERIAL PRIMARY KEY,

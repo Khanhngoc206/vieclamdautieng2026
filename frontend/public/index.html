@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="Sàn Giới Thiệu Việc Làm Xã Dầu Tiếng – Kết nối doanh nghiệp và người lao động"/>
 <title>Việc Làm Dầu Tiếng</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -19,7 +18,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .header-bar{background:rgba(0,0,0,.25);padding:7px 16px;font-size:12px;text-align:center}
 .tabs{background:#fff;border-bottom:2px solid #e2e8f0;position:sticky;top:0;z-index:40;box-shadow:0 2px 6px rgba(0,0,0,.07)}
 .tabs-inner{max-width:900px;margin:0 auto;display:flex}
-.tab{flex:1;padding:13px 8px;text-align:center;font-size:14px;font-weight:500;color:#718096;cursor:pointer;border:none;background:transparent;border-bottom:3px solid transparent;transition:all .15s}
+.tab{flex:1;padding:13px 8px;text-align:center;font-size:14px;font-weight:500;color:#718096;cursor:pointer;border:none;background:transparent;border-bottom:3px solid transparent}
 .tab.active{color:#1563a8;border-bottom-color:#1563a8}
 .wrap{max-width:900px;margin:0 auto;padding:14px 14px 30px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
@@ -33,14 +32,22 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .ss{padding:9px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;background:#fff;outline:none;cursor:pointer}
 .btn-srch{background:#1563a8;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.chip{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096;transition:all .15s}
+.chip{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096}
 .chip.active{background:#dbeafe;border-color:#1563a8;color:#1563a8;font-weight:600}
+/* Job card */
 .job-card{background:#fff;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;border-left:4px solid #e2e8f0;transition:box-shadow .15s,transform .1s;overflow:hidden}
 .job-card:hover{box-shadow:0 4px 16px rgba(21,99,168,.13);transform:translateY(-1px)}
 .job-card.bl-hot{border-left-color:#ea580c}
 .job-card.bl-new{border-left-color:#16a34a}
 .job-card.bl-urgent{border-left-color:#dc2626}
-.poster-img{width:100%;max-height:280px;object-fit:cover;display:block;border-bottom:1px solid #f1f5f9}
+/* Card gallery thumbnail */
+.card-gallery{display:flex;gap:3px;overflow:hidden;max-height:200px}
+.card-gallery .main-img{flex:1;min-width:0}
+.card-gallery .main-img img{width:100%;height:200px;object-fit:cover;display:block}
+.card-gallery .side-imgs{display:flex;flex-direction:column;gap:3px;width:80px;flex-shrink:0}
+.card-gallery .side-imgs img{width:80px;height:97px;object-fit:cover;display:block}
+.card-gallery .img-count{width:80px;height:97px;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.single-img img{width:100%;max-height:240px;object-fit:cover;display:block}
 .job-body{padding:14px 16px}
 .jh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
 .jcompany{font-size:13px;color:#1563a8;font-weight:600}
@@ -51,21 +58,34 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .tag{font-size:12px;padding:3px 10px;border-radius:20px;background:#f1f5f9;color:#475569}
 .tag.green{background:#f0fdf4;color:#15803d;font-weight:600}
 .jfooter{display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;border-top:1px solid #f1f5f9;padding-top:7px;margin-top:2px}
+/* Worker card */
 .w-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .w-top{display:flex;align-items:center;gap:12px;margin-bottom:7px}
 .avatar{width:42px;height:42px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#1563a8;flex-shrink:0}
 .wname{font-size:15px;font-weight:700}.wseek{font-size:13px;color:#64748b;margin-top:1px}
-.wexp{font-size:13px;color:#94a3b8;margin-bottom:8px}
 .wfooter{display:flex;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:7px;font-size:12px}
 .avail{background:#f0fdf4;color:#15803d;padding:3px 12px;border-radius:20px;font-weight:600}
 /* Modal */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:100}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:100}
 @media(min-width:580px){.overlay{align-items:center;padding:20px}}
-.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto}
+.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:580px;max-height:93vh;overflow-y:auto}
 @media(min-width:580px){.modal{border-radius:16px}}
-.modal-poster{width:100%;max-height:300px;object-fit:contain;background:#f8faff}
-.modal-inner{padding:20px}
-.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
+/* Gallery trong modal */
+.gallery-wrap{position:relative;background:#000}
+.gallery-main{position:relative}
+.gallery-main img{width:100%;max-height:340px;object-fit:contain;display:block;background:#111}
+.gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5}
+.gallery-nav.prev{left:8px}
+.gallery-nav.next{right:8px}
+.gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px}
+.gdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .15s}
+.gdot.active{background:#fff}
+.gallery-thumbs{display:flex;gap:4px;padding:6px;background:#1e293b;overflow-x:auto}
+.gallery-thumbs img{width:56px;height:56px;object-fit:cover;border-radius:4px;cursor:pointer;opacity:.6;flex-shrink:0;transition:opacity .15s;border:2px solid transparent}
+.gallery-thumbs img.active{opacity:1;border-color:#3b82f6}
+.gallery-count{position:absolute;top:8px;right:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:2px 10px;border-radius:20px}
+.modal-inner{padding:18px 20px 20px}
+.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #f1f5f9}
 .mtitle{font-size:17px;font-weight:800}.xbtn{background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8;line-height:1}
 .mco{background:#dbeafe;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:14px;font-weight:700;color:#1563a8}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
@@ -77,31 +97,27 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;fo
 .crow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cicon{width:32px;height:32px;background:#1563a8;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ph{font-size:19px;font-weight:800;color:#1563a8}
-.btn-call{display:block;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;width:100%;margin-top:8px;text-decoration:none}
-/* Nút ứng tuyển */
+.btn-call{display:block;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;width:100%;margin-top:8px;text-decoration:none}
 .btn-apply{display:block;background:#1563a8;color:#fff;border:none;padding:13px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;width:100%;margin-top:10px}
-.btn-apply:hover{background:#0e4f8a}
 .divider{border:none;border-top:1px solid #e2e8f0;margin:14px 0}
-/* Form ứng tuyển */
-.apply-form{background:#f8faff;border-radius:10px;padding:16px;margin-top:10px;border:1.5px solid #dbeafe}
-.apply-title{font-size:14px;font-weight:700;color:#1563a8;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.apply-form{background:#f8faff;border-radius:10px;padding:16px;border:1.5px solid #dbeafe}
+.apply-title{font-size:14px;font-weight:700;color:#1563a8;margin-bottom:12px}
 .fg{margin-bottom:10px}
 .fg label{font-size:12px;color:#64748b;display:block;margin-bottom:4px;font-weight:600}
 .fg label span{color:#dc2626}
-.fg input,.fg select,.fg textarea{width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff;transition:border-color .15s}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#1563a8}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff}
+.fg input:focus,.fg select:focus{border-color:#1563a8}
 .fg textarea{resize:vertical;min-height:70px}
 .frow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn-submit-apply{width:100%;background:#16a34a;color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .15s}
-.btn-submit-apply:hover{background:#15803d}
+.btn-submit-apply{width:100%;background:#16a34a;color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px}
 .btn-submit-apply:disabled{background:#94a3b8;cursor:not-allowed}
-.apply-success{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;font-size:13px;color:#15803d;text-align:center;margin-top:10px;display:none}
-.apply-error{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;color:#b91c1c;margin-bottom:8px;display:none}
+.apply-success{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;font-size:13px;color:#15803d;text-align:center;margin-top:10px;display:none}
+.apply-error{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:13px;color:#b91c1c;margin-bottom:8px;display:none}
 .privacy-note{font-size:11px;color:#94a3b8;text-align:center;margin-top:8px;line-height:1.5}
 .empty{text-align:center;padding:40px 20px;color:#cbd5e1;font-size:14px}
 .loading{text-align:center;padding:30px;color:#94a3b8;font-size:14px}
 footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font-size:13px;margin-top:10px}
-@media(max-width:480px){.header-stats{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.search-row{flex-direction:column}.si,.ss,.btn-srch{width:100%}.frow2{grid-template-columns:1fr}}
+@media(max-width:480px){.header-stats{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.frow2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -113,7 +129,8 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       </div>
       <div>
         <div class="site-name">Sàn Giới Thiệu Việc Làm</div>
-        <div class="site-sub">Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</div>     
+        <div class="site-sub">Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</div>
+      </div>
     </div>
     <div class="header-stats">
       <div class="hs"><div class="hs-n" id="hj">—</div><div class="hs-l">Tin tuyển dụng</div></div>
@@ -121,16 +138,14 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="hs"><div class="hs-n" id="hc">—</div><div class="hs-l">Doanh nghiệp</div></div>
     </div>
   </div>
-  <div class="header-bar">Xem tin và <strong>ứng tuyển trực tiếp</strong> hoặc <strong>liên hệ doanh nghiệp</strong> &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
+  <div class="header-bar">Xem tin và <strong>ứng tuyển</strong> hoặc <strong>liên hệ trực tiếp</strong> &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
 </div>
-
 <div class="tabs">
   <div class="tabs-inner">
     <button class="tab active" onclick="switchTab('jobs')">💼 Tin tuyển dụng</button>
     <button class="tab" onclick="switchTab('workers')">👤 Người tìm việc</button>
   </div>
 </div>
-
 <div class="wrap">
   <div id="tab-jobs">
     <div class="stats">
@@ -138,7 +153,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="sc"><div class="sc-n" id="sp">—</div><div class="sc-l">Vị trí cần tuyển</div></div>
       <div class="sc"><div class="sc-n" id="sc2">—</div><div class="sc-l">Doanh nghiệp</div></div>
     </div>
-    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem chi tiết, <strong>ứng tuyển</strong> hoặc <strong>gọi điện trực tiếp</strong> cho doanh nghiệp. Miễn phí!</span></div>
+    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem chi tiết, <strong>ứng tuyển</strong> hoặc <strong>gọi điện trực tiếp</strong>. Miễn phí!</span></div>
     <div class="searchbox">
       <div class="search-row">
         <input class="si" type="text" id="jsearch" placeholder="Tìm kiếm công việc, công ty, địa chỉ..." oninput="debJ()"/>
@@ -158,9 +173,8 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
     </div>
     <div id="jobList"><div class="loading">Đang tải...</div></div>
   </div>
-
   <div id="tab-workers" style="display:none">
-    <div class="notice"><span>ℹ️</span><span>Danh sách người lao động đang tìm việc. Doanh nghiệp liên hệ Phòng Văn Hóa – Xã Hội để được kết nối.</span></div>
+    <div class="notice"><span>ℹ️</span><span>Danh sách người lao động đang tìm việc. Doanh nghiệp liên hệ Phòng Văn Hóa – Xã Hộiđể kết nối.</span></div>
     <div class="searchbox">
       <div class="search-row">
         <input class="si" type="text" id="wsearch" placeholder="Tìm theo tên, nghề, địa bàn..." oninput="debW()"/>
@@ -170,17 +184,22 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
     <div id="workerList"><div class="loading">Đang tải...</div></div>
   </div>
 </div>
-
 <div id="modal" style="display:none"></div>
-
+<!-- Lightbox xem ảnh full -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column">
+  <button onclick="closeLightbox()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;z-index:201">×</button>
+  <button onclick="lbNav(-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:22px;cursor:pointer;z-index:201">‹</button>
+  <button onclick="lbNav(1)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:22px;cursor:pointer;z-index:201">›</button>
+  <img id="lbImg" style="max-width:94vw;max-height:85vh;object-fit:contain;border-radius:6px"/>
+  <div id="lbCounter" style="color:#fff;font-size:13px;margin-top:10px"></div>
+</div>
 <footer>
   <p>📍 Phòng Văn Hóa – Xã Hội UBND Xã Dầu Tiếng, TP. Hồ Chí Minh</p>
   <p style="margin-top:5px;font-size:12px">Trang thông tin việc làm miễn phí – Không thu phí môi giới dưới mọi hình thức</p>
 </footer>
-
 <script>
 const API='/api';
-let wt='',jDeb,wDeb;
+let wt='',jDeb,wDeb,lbImages=[],lbIdx=0;
 
 async function loadStats(){
   try{
@@ -204,16 +223,27 @@ async function loadJobs(){
   document.getElementById('jobList').innerHTML='<div class="loading">Đang tải...</div>';
   try{
     const d=await fetch(`${API}/jobs?search=${encodeURIComponent(s)}&category=${encodeURIComponent(c)}&work_type=${encodeURIComponent(wt)}`).then(r=>r.json());
-    document.getElementById('sj').textContent=d.total;
-    document.getElementById('sp').textContent=d.total_qty;
-    document.getElementById('sc2').textContent=d.total_companies;
-    document.getElementById('hj').textContent=d.total;
-    document.getElementById('hp').textContent=d.total_qty;
-    document.getElementById('hc').textContent=d.total_companies;
+    ['sj','hj'].forEach(id=>document.getElementById(id).textContent=d.total);
+    ['sp','hp'].forEach(id=>document.getElementById(id).textContent=d.total_qty);
+    ['sc2','hc'].forEach(id=>document.getElementById(id).textContent=d.total_companies);
     if(!d.jobs.length){document.getElementById('jobList').innerHTML='<div class="empty">Không tìm thấy tin phù hợp</div>';return;}
-    document.getElementById('jobList').innerHTML=d.jobs.map(j=>`
-      <div class="job-card ${j.badge?'bl-'+j.badge:''}" onclick="openJob(${j.id})">
-        ${j.poster_url?`<img class="poster-img" src="${esc(j.poster_url)}" alt="Poster" loading="lazy" onerror="this.style.display='none'"/>`:''}
+    document.getElementById('jobList').innerHTML=d.jobs.map(j=>{
+      const imgs=j.images_arr||[];
+      let galleryHtml='';
+      if(imgs.length===0){galleryHtml='';}
+      else if(imgs.length===1){galleryHtml=`<div class="single-img"><img src="${esc(imgs[0])}" alt="poster" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>`;}
+      else{
+        const extra=imgs.length-2;
+        galleryHtml=`<div class="card-gallery">
+          <div class="main-img"><img src="${esc(imgs[0])}" alt="ảnh 1" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>
+          <div class="side-imgs">
+            <img src="${esc(imgs[1])}" alt="ảnh 2" loading="lazy" onerror="this.style.display='none'"/>
+            ${extra>0?`<div class="img-count">+${extra}</div>`:''}
+          </div>
+        </div>`;
+      }
+      return `<div class="job-card ${j.badge?'bl-'+j.badge:''}" onclick="openJob(${j.id})">
+        ${galleryHtml}
         <div class="job-body">
           <div class="jh">
             <div class="jcompany">${esc(j.company)}</div>
@@ -227,22 +257,47 @@ async function loadJobs(){
             <span class="tag">${esc(j.category)}</span>
           </div>
           <div class="jfooter">
-            <span>📍 ${esc(j.address||'Dầu Tiếng, Bình Dương')}</span>
+            <span>📍 ${esc(j.address||'Dầu Tiếng')}</span>
             <span>${fmt(j.created_at)}</span>
           </div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }catch(e){document.getElementById('jobList').innerHTML='<div class="empty">Lỗi tải dữ liệu</div>';}
 }
+
+let currentGalleryImgs=[];
+let currentGalleryIdx=0;
 
 async function openJob(id){
   try{
     const j=await fetch(`${API}/jobs/${id}`).then(r=>r.json());
+    const imgs=j.images_arr||[];
+    currentGalleryImgs=imgs;
+    currentGalleryIdx=0;
     document.getElementById('modal').style.display='flex';
     document.getElementById('modal').className='overlay';
+
+    // Build gallery HTML
+    let galleryHTML='';
+    if(imgs.length>0){
+      const dots=imgs.map((_,i)=>`<div class="gdot ${i===0?'active':''}" onclick="goGallery(${i})"></div>`).join('');
+      const thumbs=imgs.map((url,i)=>`<img src="${esc(url)}" alt="ảnh ${i+1}" class="${i===0?'active':''}" onclick="goGallery(${i})" onerror="this.style.display='none'"/>`).join('');
+      galleryHTML=`
+        <div class="gallery-wrap">
+          <div class="gallery-main" id="gMain">
+            <img id="gImg" src="${esc(imgs[0])}" alt="ảnh 1" style="width:100%;max-height:340px;object-fit:contain;display:block;background:#111" onerror="this.style.display='none'"/>
+            ${imgs.length>1?`<button class="gallery-nav prev" onclick="goGallery(currentGalleryIdx-1)">‹</button><button class="gallery-nav next" onclick="goGallery(currentGalleryIdx+1)">›</button>`:''}
+            <div class="gallery-dots" id="gDots">${dots}</div>
+            <div class="gallery-count" id="gCount">${imgs.length>1?`1 / ${imgs.length}`:''}</div>
+          </div>
+          ${imgs.length>1?`<div class="gallery-thumbs" id="gThumbs">${thumbs}</div>`:''}
+        </div>`;
+    }
+
     document.getElementById('modal').innerHTML=`
       <div class="modal">
-        ${j.poster_url?`<img class="modal-poster" src="${esc(j.poster_url)}" alt="Poster" onerror="this.style.display='none'"/>`:''}
+        ${galleryHTML}
         <div class="modal-inner">
           <div class="mhead">
             <div class="mtitle">${esc(j.title)}</div>
@@ -255,9 +310,8 @@ async function openJob(id){
             <div class="di">${esc(j.work_type)}</div>
             <div class="di">${esc(j.category)}</div>
           </div>
-          ${j.address?`<div class="ds"><h4>Địa điểm làm việc</h4><p>📍 ${esc(j.address)}</p></div>`:''}
+          ${j.address?`<div class="ds"><h4>Địa điểm</h4><p>📍 ${esc(j.address)}</p></div>`:''}
           ${j.description?`<div class="ds"><h4>Mô tả công việc</h4><p>${esc(j.description)}</p></div>`:''}
-
           <div class="cbox">
             <h4>📞 Liên hệ trực tiếp với doanh nghiệp</h4>
             <div class="crow">
@@ -270,14 +324,9 @@ async function openJob(id){
             </div>
             <a class="btn-call" href="tel:${j.phone.replace(/\s/g,'')}">📞 Gọi ngay cho doanh nghiệp</a>
           </div>
-
           <hr class="divider"/>
-
-          <button class="btn-apply" onclick="toggleApplyForm(${j.id})">
-            📝 Ứng tuyển qua Phòng Lao động
-          </button>
-
-          <div id="applyForm_${j.id}" style="display:none">
+          <button class="btn-apply" id="btnApply_${j.id}" onclick="toggleApplyForm(${j.id})">📝 Ứng tuyển qua Phòng Lao động</button>
+          <div id="applyForm_${j.id}" style="display:none;margin-top:12px">
             <div class="apply-form">
               <div class="apply-title">📋 Điền thông tin ứng tuyển</div>
               <div class="apply-error" id="applyErr_${j.id}"></div>
@@ -287,42 +336,73 @@ async function openJob(id){
               </div>
               <div class="frow2">
                 <div class="fg"><label>Tuổi</label><input type="number" id="a_age_${j.id}" placeholder="25" min="15" max="65"/></div>
-                <div class="fg"><label>Giới tính</label>
-                  <select id="a_gender_${j.id}"><option>Nam</option><option>Nữ</option></select>
-                </div>
+                <div class="fg"><label>Giới tính</label><select id="a_gender_${j.id}"><option>Nam</option><option>Nữ</option></select></div>
               </div>
               <div class="fg"><label>Kinh nghiệm liên quan</label>
-                <textarea id="a_exp_${j.id}" placeholder="Mô tả ngắn kinh nghiệm, kỹ năng của bạn..."></textarea>
+                <textarea id="a_exp_${j.id}" placeholder="Mô tả ngắn kinh nghiệm của bạn..."></textarea>
               </div>
               <div class="fg"><label>Ghi chú thêm</label>
-                <input type="text" id="a_note_${j.id}" placeholder="Thời gian có thể đi làm, yêu cầu đặc biệt..."/>
+                <input type="text" id="a_note_${j.id}" placeholder="Thời gian có thể đi làm..."/>
               </div>
-              <button class="btn-submit-apply" id="a_btn_${j.id}" onclick="submitApply(${j.id})">
-                ✅ Gửi đơn ứng tuyển
-              </button>
-              <p class="privacy-note">🔒 Thông tin của bạn được bảo mật hoàn toàn, chỉ Phòng LĐ-TB&XH mới xem được để kết nối với doanh nghiệp phù hợp.</p>
+              <button class="btn-submit-apply" id="a_btn_${j.id}" onclick="submitApply(${j.id})">✅ Gửi đơn ứng tuyển</button>
+              <p class="privacy-note">🔒 Thông tin của bạn được bảo mật, chỉ Phòng LĐ-TB&XH mới xem được để kết nối với doanh nghiệp.</p>
             </div>
             <div class="apply-success" id="applyOk_${j.id}"></div>
           </div>
-
           <p style="text-align:center;font-size:12px;color:#cbd5e1;margin-top:14px">Đăng ngày ${fmt(j.created_at)}</p>
         </div>
       </div>`;
     document.getElementById('modal').onclick=e=>{if(e.target===document.getElementById('modal'))closeM();};
+    // Swipe support
+    setupSwipe();
   }catch(e){alert('Không thể tải chi tiết.');}
+}
+
+function goGallery(idx){
+  if(!currentGalleryImgs.length)return;
+  currentGalleryIdx=(idx+currentGalleryImgs.length)%currentGalleryImgs.length;
+  const img=document.getElementById('gImg');
+  if(img)img.src=currentGalleryImgs[currentGalleryIdx];
+  const dots=document.querySelectorAll('.gdot');
+  dots.forEach((d,i)=>d.classList.toggle('active',i===currentGalleryIdx));
+  const thumbs=document.querySelectorAll('.gallery-thumbs img');
+  thumbs.forEach((t,i)=>t.classList.toggle('active',i===currentGalleryIdx));
+  const cnt=document.getElementById('gCount');
+  if(cnt)cnt.textContent=`${currentGalleryIdx+1} / ${currentGalleryImgs.length}`;
+}
+
+function setupSwipe(){
+  const el=document.querySelector('.gallery-main');
+  if(!el||currentGalleryImgs.length<=1)return;
+  let startX=0;
+  el.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
+  el.addEventListener('touchend',e=>{
+    const diff=startX-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>40)goGallery(currentGalleryIdx+(diff>0?1:-1));
+  });
+}
+
+// Lightbox
+function openLightbox(imgs,idx){
+  lbImages=imgs;lbIdx=idx;
+  document.getElementById('lightbox').style.display='flex';
+  document.getElementById('lbImg').src=imgs[idx];
+  document.getElementById('lbCounter').textContent=imgs.length>1?`${idx+1} / ${imgs.length}`:'';
+}
+function closeLightbox(){document.getElementById('lightbox').style.display='none';}
+function lbNav(dir){
+  lbIdx=(lbIdx+dir+lbImages.length)%lbImages.length;
+  document.getElementById('lbImg').src=lbImages[lbIdx];
+  document.getElementById('lbCounter').textContent=lbImages.length>1?`${lbIdx+1} / ${lbImages.length}`:'';
 }
 
 function toggleApplyForm(id){
   const form=document.getElementById(`applyForm_${id}`);
-  const btn=document.querySelector('.btn-apply');
-  if(form.style.display==='none'){
-    form.style.display='block';
-    if(btn)btn.textContent='▲ Đóng form ứng tuyển';
-    form.scrollIntoView({behavior:'smooth',block:'nearest'});
-  } else {
-    form.style.display='none';
-    if(btn)btn.textContent='📝 Ứng tuyển qua Phòng Lao động';
-  }
+  const btn=document.getElementById(`btnApply_${id}`);
+  const show=form.style.display==='none';
+  form.style.display=show?'block':'none';
+  btn.textContent=show?'▲ Đóng form ứng tuyển':'📝 Ứng tuyển qua Phòng Lao động';
+  if(show)form.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 async function submitApply(jobId){
@@ -335,29 +415,18 @@ async function submitApply(jobId){
   const errEl=document.getElementById(`applyErr_${jobId}`);
   const okEl=document.getElementById(`applyOk_${jobId}`);
   const btn=document.getElementById(`a_btn_${jobId}`);
-
   errEl.style.display='none';
   if(!name||!phone){errEl.textContent='Vui lòng điền họ tên và số điện thoại.';errEl.style.display='block';return;}
-
   btn.disabled=true;btn.textContent='Đang gửi...';
   try{
     const r=await fetch(`${API}/apply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({job_id:jobId,name,phone,age:age||null,gender,experience,note})});
     const d=await r.json();
     if(r.ok){
       document.getElementById(`applyForm_${jobId}`).style.display='none';
-      okEl.textContent='✅ '+d.message;
-      okEl.style.display='block';
+      okEl.textContent='✅ '+d.message;okEl.style.display='block';
       btn.textContent='✅ Đã gửi đơn';
-    } else {
-      errEl.textContent=d.error||'Có lỗi xảy ra.';
-      errEl.style.display='block';
-      btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';
-    }
-  }catch(e){
-    errEl.textContent='Không thể kết nối. Vui lòng thử lại.';
-    errEl.style.display='block';
-    btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';
-  }
+    }else{errEl.textContent=d.error||'Có lỗi xảy ra.';errEl.style.display='block';btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';}
+  }catch(e){errEl.textContent='Không thể kết nối.';errEl.style.display='block';btn.disabled=false;btn.textContent='✅ Gửi đơn ứng tuyển';}
 }
 
 function closeM(){document.getElementById('modal').style.display='none';}
@@ -375,7 +444,7 @@ async function loadWorkers(){
           <div><div class="wname">${esc(w.name)}${w.age?', '+w.age+' tuổi':''} (${esc(w.gender||'Nam')})</div>
           <div class="wseek">💼 ${esc(w.seek)}</div></div>
         </div>
-        ${w.experience?`<div class="wexp">📝 ${esc(w.experience)}</div>`:''}
+        ${w.experience?`<div style="font-size:13px;color:#94a3b8;margin-bottom:8px">📝 ${esc(w.experience)}</div>`:''}
         <div class="wfooter">
           <span class="avail">${esc(w.available||'Sẵn sàng')}</span>
           <span style="color:#94a3b8">📍 ${esc(w.location||'Dầu Tiếng')}</span>

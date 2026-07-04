@@ -1,4 +1,4 @@
-// server.js - PostgreSQL + applications
+// server.js - multiple images support
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -31,7 +31,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Auth
 function requireAdmin(req, res, next) {
   const auth = req.headers['authorization'] || '';
   if (!auth.startsWith('Bearer ')) return res.status(401).json({ error: 'Cần đăng nhập.' });
@@ -40,6 +39,20 @@ function requireAdmin(req, res, next) {
     if (!decoded.includes(':DauTiengSecret:')) return res.status(401).json({ error: 'Token không hợp lệ.' });
     next();
   } catch { res.status(401).json({ error: 'Token không hợp lệ.' }); }
+}
+
+// Parse images helper
+function parseImages(job) {
+  try {
+    job.images_arr = JSON.parse(job.images || '[]');
+  } catch {
+    job.images_arr = [];
+  }
+  // Gộp poster_url cũ vào images_arr nếu chưa có
+  if (job.poster_url && !job.images_arr.includes(job.poster_url)) {
+    job.images_arr = [job.poster_url, ...job.images_arr].filter(Boolean);
+  }
+  return job;
 }
 
 // ── PUBLIC ─────────────────────────────────────────────────────
@@ -53,8 +66,9 @@ app.get('/api/jobs', async (req, res) => {
     if (work_type) { p.push(work_type); sql += ` AND work_type=$${p.length}`; }
     sql += ' ORDER BY created_at DESC';
     const { rows } = await pool.query(sql, p);
+    const jobs = rows.map(parseImages);
     const s = (await pool.query('SELECT COUNT(*) as t,SUM(qty) as q,COUNT(DISTINCT company) as c FROM jobs')).rows[0];
-    res.json({ jobs: rows, total: rows.length, total_qty: parseInt(s.q)||0, total_companies: parseInt(s.c)||0 });
+    res.json({ jobs, total: jobs.length, total_qty: parseInt(s.q)||0, total_companies: parseInt(s.c)||0 });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -62,7 +76,7 @@ app.get('/api/jobs/:id', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM jobs WHERE id=$1', [req.params.id]);
     if (!rows.length) return res.status(404).json({ error: 'Không tìm thấy.' });
-    res.json(rows[0]);
+    res.json(parseImages(rows[0]));
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -87,23 +101,18 @@ app.get('/api/stats', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// ── ỨNG TUYỂN (PUBLIC - rate limit chặt hơn) ──────────────────
-app.post('/api/apply', rateLimit({ windowMs: 60*60*1000, max: 5, message: { error: 'Bạn đã gửi quá nhiều đơn. Vui lòng thử lại sau 1 giờ.' } }), async (req, res) => {
+// ── ỨNG TUYỂN ──────────────────────────────────────────────────
+app.post('/api/apply', rateLimit({ windowMs: 60*60*1000, max: 5, message: { error: 'Quá nhiều lần gửi. Vui lòng thử lại sau 1 giờ.' } }), async (req, res) => {
   try {
     const { job_id, name, age, gender, phone, experience, note } = req.body;
     if (!job_id || !name || !phone) return res.status(400).json({ error: 'Vui lòng điền đầy đủ họ tên và số điện thoại.' });
     if (!/^(0|\+84)[0-9]{8,10}$/.test(phone.replace(/\s/g,''))) return res.status(400).json({ error: 'Số điện thoại không hợp lệ.' });
-    // Kiểm tra job tồn tại
     const job = await pool.query('SELECT id,title,company FROM jobs WHERE id=$1', [job_id]);
     if (!job.rows.length) return res.status(404).json({ error: 'Tin tuyển dụng không tồn tại.' });
-    // Kiểm tra đã ứng tuyển chưa (cùng SĐT + cùng job)
     const dup = await pool.query('SELECT id FROM applications WHERE job_id=$1 AND phone=$2', [job_id, phone.replace(/\s/g,'')]);
     if (dup.rows.length) return res.status(400).json({ error: 'Số điện thoại này đã ứng tuyển vào vị trí này rồi.' });
-
-    await pool.query(
-      `INSERT INTO applications (job_id,name,age,gender,phone,experience,note) VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-      [job_id, name.trim(), age||null, gender||'Nam', phone.replace(/\s/g,''), experience||'', note||'']
-    );
+    await pool.query(`INSERT INTO applications (job_id,name,age,gender,phone,experience,note) VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+      [job_id, name.trim(), age||null, gender||'Nam', phone.replace(/\s/g,''), experience||'', note||'']);
     res.status(201).json({ message: `Đã gửi đơn ứng tuyển thành công vào vị trí "${job.rows[0].title}" tại ${job.rows[0].company}. Chúng tôi sẽ liên hệ với bạn sớm!` });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
@@ -136,11 +145,10 @@ app.get('/api/admin/analytics', requireAdmin, async (req, res) => {
 });
 
 // ── ADMIN APPLICATIONS ─────────────────────────────────────────
-// Lấy tất cả đơn ứng tuyển (có thể lọc theo job)
 app.get('/api/admin/applications', requireAdmin, async (req, res) => {
   try {
     const { job_id } = req.query;
-    let sql = `SELECT a.*, j.title as job_title, j.company FROM applications a LEFT JOIN jobs j ON a.job_id=j.id WHERE 1=1`;
+    let sql = `SELECT a.*,j.title as job_title,j.company FROM applications a LEFT JOIN jobs j ON a.job_id=j.id WHERE 1=1`;
     const p = [];
     if (job_id) { p.push(job_id); sql += ` AND a.job_id=$${p.length}`; }
     sql += ' ORDER BY a.created_at DESC';
@@ -149,16 +157,14 @@ app.get('/api/admin/applications', requireAdmin, async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// Cập nhật trạng thái đơn
 app.put('/api/admin/applications/:id', requireAdmin, async (req, res) => {
   try {
-    const { status } = req.body; // new | contacted | rejected
+    const { status } = req.body;
     await pool.query('UPDATE applications SET status=$1 WHERE id=$2', [status, req.params.id]);
     res.json({ message: 'Đã cập nhật.' });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// Xóa đơn
 app.delete('/api/admin/applications/:id', requireAdmin, async (req, res) => {
   try {
     await pool.query('DELETE FROM applications WHERE id=$1', [req.params.id]);
@@ -169,11 +175,14 @@ app.delete('/api/admin/applications/:id', requireAdmin, async (req, res) => {
 // ── ADMIN JOBS ─────────────────────────────────────────────────
 app.post('/api/admin/jobs', requireAdmin, async (req, res) => {
   try {
-    const { company,title,qty,category,salary,work_type,address,description,poster_url,contact,phone,email,badge } = req.body;
+    const { company,title,qty,category,salary,work_type,address,description,images,contact,phone,email,badge } = req.body;
     if (!company||!title||!contact||!phone) return res.status(400).json({ error: 'Thiếu thông tin bắt buộc.' });
+    const imagesArr = Array.isArray(images) ? images : [];
+    const posterUrl = imagesArr[0] || '';
     const { rows } = await pool.query(
-      `INSERT INTO jobs (company,title,qty,category,salary,work_type,address,description,poster_url,contact,phone,email,badge) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id`,
-      [company,title,qty||1,category||'Khác',salary||'',work_type||'Toàn thời gian',address||'',description||'',poster_url||'',contact,phone,email||'',badge||'']
+      `INSERT INTO jobs (company,title,qty,category,salary,work_type,address,description,poster_url,images,contact,phone,email,badge)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING id`,
+      [company,title,qty||1,category||'Khác',salary||'',work_type||'Toàn thời gian',address||'',description||'',posterUrl,JSON.stringify(imagesArr),contact,phone,email||'',badge||'']
     );
     res.status(201).json({ message: 'Đã đăng tin thành công.', id: rows[0].id });
   } catch(e) { res.status(500).json({ error: e.message }); }
@@ -181,10 +190,12 @@ app.post('/api/admin/jobs', requireAdmin, async (req, res) => {
 
 app.put('/api/admin/jobs/:id', requireAdmin, async (req, res) => {
   try {
-    const { company,title,qty,category,salary,work_type,address,description,poster_url,contact,phone,email,badge } = req.body;
+    const { company,title,qty,category,salary,work_type,address,description,images,contact,phone,email,badge } = req.body;
+    const imagesArr = Array.isArray(images) ? images : [];
+    const posterUrl = imagesArr[0] || '';
     await pool.query(
-      `UPDATE jobs SET company=$1,title=$2,qty=$3,category=$4,salary=$5,work_type=$6,address=$7,description=$8,poster_url=$9,contact=$10,phone=$11,email=$12,badge=$13 WHERE id=$14`,
-      [company,title,qty||1,category,salary||'',work_type,address||'',description||'',poster_url||'',contact,phone,email||'',badge||'',req.params.id]
+      `UPDATE jobs SET company=$1,title=$2,qty=$3,category=$4,salary=$5,work_type=$6,address=$7,description=$8,poster_url=$9,images=$10,contact=$11,phone=$12,email=$13,badge=$14 WHERE id=$15`,
+      [company,title,qty||1,category,salary||'',work_type,address||'',description||'',posterUrl,JSON.stringify(imagesArr),contact,phone,email||'',badge||'',req.params.id]
     );
     res.json({ message: 'Đã cập nhật.' });
   } catch(e) { res.status(500).json({ error: e.message }); }

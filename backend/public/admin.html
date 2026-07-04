@@ -26,14 +26,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
 .admin-nav{background:#1e293b;display:flex;overflow-x:auto;padding:0 16px}
 .anav-item{color:#94a3b8;padding:13px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;position:relative}
 .anav-item.active{color:#fff;border-bottom-color:#3b82f6}
-.badge-dot{position:absolute;top:8px;right:6px;width:16px;height:16px;background:#ef4444;border-radius:50%;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center}
+.badge-dot{position:absolute;top:8px;right:4px;min-width:16px;height:16px;background:#ef4444;border-radius:20px;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .admin-body{padding:16px;max-width:960px;margin:0 auto;width:100%;flex:1}
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 @media(max-width:600px){.stats-bar{grid-template-columns:1fr 1fr}}
 .sb{background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.sb-n{font-size:22px;font-weight:800;color:#1563a8}.sb-l{font-size:12px;color:#94a3b8;margin-top:2px}
-.sb-n.red{color:#ef4444}
-/* Analytics */
+.sb-n{font-size:22px;font-weight:800;color:#1563a8}.sb-n.red{color:#ef4444}.sb-l{font-size:12px;color:#94a3b8;margin-top:2px}
 .analytics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
 @media(max-width:500px){.analytics-grid{grid-template-columns:1fr}}
 .ana-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
@@ -41,30 +39,28 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
 .ana-title{font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
 .ana-big{font-size:32px;font-weight:800;color:#1563a8;line-height:1}
 .ana-sub{font-size:12px;color:#94a3b8;margin-top:4px}
-.trend-up{color:#16a34a;font-size:12px;font-weight:600}
-.trend-down{color:#dc2626;font-size:12px;font-weight:600}
+.trend-up{color:#16a34a;font-size:12px;font-weight:600}.trend-down{color:#dc2626;font-size:12px;font-weight:600}
 .chart-wrap{position:relative;height:140px;display:flex;align-items:flex-end;gap:4px;padding-top:20px}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%}
-.bar-inner{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#3b82f6,#1563a8);min-height:2px;transition:height .3s;position:relative;cursor:pointer}
+.bar-inner{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#3b82f6,#1563a8);min-height:2px;position:relative;cursor:pointer}
 .bar-inner:hover{opacity:.8}
-.bar-inner .tooltip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10}
+.bar-inner .tooltip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10}
 .bar-inner:hover .tooltip{display:block}
 .bar-label{font-size:10px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center}
 .ana-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9}
 .ana-row:last-child{border-bottom:none}
-/* Section */
 .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .sh-title{font-size:15px;font-weight:700}
 .btn-add{background:#1563a8;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
-/* Records */
 .rec{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #e2e8f0}
-.rec.hot{border-left-color:#ea580c}
-.rec.new-badge{border-left-color:#16a34a}
-.rec.urgent{border-left-color:#dc2626}
+.rec.hot{border-left-color:#ea580c}.rec.new{border-left-color:#16a34a}.rec.urgent{border-left-color:#dc2626}
 .rec.app-new{border-left-color:#3b82f6;background:#f0f9ff}
 .rec.app-contacted{border-left-color:#16a34a}
 .rec.app-rejected{border-left-color:#94a3b8;opacity:.7}
-.rec-poster{width:100%;max-height:150px;object-fit:cover;border-radius:6px;margin-bottom:10px}
+/* Multi image thumbnails in admin */
+.rec-imgs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.rec-imgs img{width:72px;height:72px;object-fit:cover;border-radius:6px;border:2px solid #e2e8f0;cursor:pointer}
+.rec-imgs img:hover{border-color:#1563a8}
 .rec-title{font-size:15px;font-weight:700}
 .rec-company{font-size:13px;color:#1563a8;font-weight:600;margin-bottom:4px}
 .rec-meta{font-size:12px;color:#94a3b8;margin-bottom:10px}
@@ -74,21 +70,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
 .btn-contact{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
 .btn-reject-app{background:#fef2f2;color:#94a3b8;border:1px solid #e2e8f0;padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer}
 .badge-tag{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:700;flex-shrink:0}
-.bt-hot{background:#fff7ed;color:#c2410c}
-.bt-new{background:#f0fdf4;color:#15803d}
-.bt-urgent{background:#fef2f2;color:#b91c1c}
-.bt-none{background:#f1f5f9;color:#94a3b8}
+.bt-hot{background:#fff7ed;color:#c2410c}.bt-new{background:#f0fdf4;color:#15803d}.bt-urgent{background:#fef2f2;color:#b91c1c}.bt-none{background:#f1f5f9;color:#94a3b8}
 .status-new{background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .status-contacted{background:#d1fae5;color:#065f46;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .status-rejected{background:#f1f5f9;color:#94a3b8;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
-/* Filter tabs */
 .filter-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.ftab{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096;transition:all .15s}
+.ftab{padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;cursor:pointer;color:#718096}
 .ftab.active{background:#dbeafe;border-color:#1563a8;color:#1563a8;font-weight:600}
-/* Drawer */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200}
 @media(min-width:600px){.overlay{align-items:center;padding:20px}}
-.drawer{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;padding:20px}
+.drawer{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:600px;max-height:93vh;overflow-y:auto;padding:20px}
 @media(min-width:600px){.drawer{border-radius:16px}}
 .drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #f1f5f9}
 .drawer-title{font-size:17px;font-weight:800}
@@ -96,27 +87,34 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
 .fg2{margin-bottom:12px}
 .fg2 label{font-size:13px;color:#64748b;display:block;margin-bottom:5px;font-weight:600}
 .fg2 label span{color:#dc2626}
-.fg2 input,.fg2 select,.fg2 textarea{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#1e293b;transition:border-color .15s}
+.fg2 input,.fg2 select,.fg2 textarea{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#1e293b}
 .fg2 input:focus,.fg2 select:focus,.fg2 textarea:focus{border-color:#1563a8}
 .fg2 textarea{resize:vertical;min-height:80px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:400px){.frow{grid-template-columns:1fr}}
+/* Multi image input */
+.img-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.img-row{display:flex;gap:8px;align-items:center}
+.img-row input{flex:1;padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+.img-row input:focus{border-color:#1563a8}
+.img-row .prev-thumb{width:44px;height:44px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0;display:none;flex-shrink:0}
+.img-row .del-img{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn-add-img{background:#f0f9ff;color:#0369a1;border:1.5px dashed #bae6fd;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;width:100%;text-align:center;margin-bottom:4px}
+.btn-add-img:hover{background:#dbeafe}
+.cloudinary-hint{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:12px;color:#15803d;line-height:1.6;margin-bottom:8px}
 .btn-save{width:100%;background:#1563a8;color:#fff;border:none;padding:12px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px}
 .btn-save:disabled{background:#94a3b8;cursor:not-allowed}
 .alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none}
 .alert.ok{background:#f0fdf4;color:#15803d;display:block;border:1px solid #bbf7d0}
 .alert.err{background:#fef2f2;color:#b91c1c;display:block;border:1px solid #fecaca}
-.poster-preview{width:100%;max-height:180px;object-fit:contain;border-radius:8px;margin-top:8px;border:1px solid #e2e8f0;display:none;background:#f8faff}
-.cloudinary-hint{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:12px;color:#15803d;margin-top:8px;line-height:1.6}
-.empty{text-align:center;padding:36px;color:#cbd5e1;font-size:14px}
-.loading{text-align:center;padding:24px;color:#94a3b8}
 .app-phone{font-size:16px;font-weight:800;color:#1563a8}
 .app-info-box{background:#f8faff;border-radius:8px;padding:12px;margin-bottom:10px;border:1px solid #dbeafe}
+.empty{text-align:center;padding:36px;color:#cbd5e1;font-size:14px}
+.loading{text-align:center;padding:24px;color:#94a3b8}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-page" id="loginPage">
   <div class="login-box">
     <div style="text-align:center;margin-bottom:16px">
@@ -132,36 +130,29 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
   </div>
 </div>
 
-<!-- ADMIN -->
 <div class="admin-page" id="adminPage" style="display:none">
   <div class="admin-header">
     <h1>⚙️ Quản Trị – Sàn Việc Làm UBND Xã Dầu Tiếng</h1>
     <div style="display:flex;align-items:center;gap:10px">
-      <a href="index.html" target="_blank" class="view-site">Xem trang công khai ↗</a>
+      <a href="index.html" target="_blank" class="view-site">Xem trang ↗</a>
       <button class="btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
   </div>
   <div class="admin-nav">
     <button class="anav-item active" onclick="showSection(this,'s-dashboard')">📊 Thống kê</button>
-    <button class="anav-item" onclick="showSection(this,'s-applications')" id="navApps">
-      📩 Đơn ứng tuyển
-    </button>
+    <button class="anav-item" onclick="showSection(this,'s-applications')" id="navApps">📩 Đơn ứng tuyển</button>
     <button class="anav-item" onclick="showSection(this,'s-jobs')">💼 Tin tuyển dụng</button>
     <button class="anav-item" onclick="showSection(this,'s-workers')">👤 Hồ sơ tìm việc</button>
   </div>
   <div class="admin-body">
 
-    <!-- DASHBOARD -->
     <div id="s-dashboard">
       <div class="stats-bar" id="statsBar"><div class="loading" style="grid-column:1/-1">Đang tải...</div></div>
       <div class="analytics-grid" id="analyticsGrid"><div class="loading" style="grid-column:1/-1">Đang tải thống kê...</div></div>
     </div>
 
-    <!-- ĐƠN ỨNG TUYỂN -->
     <div id="s-applications" style="display:none">
-      <div class="section-header">
-        <div class="sh-title">📩 Đơn ứng tuyển từ người lao động</div>
-      </div>
+      <div class="section-header"><div class="sh-title" id="appSectionTitle">📩 Đơn ứng tuyển từ người lao động</div></div>
       <div class="filter-tabs" id="appFilterTabs">
         <div class="ftab active" onclick="setAppFilter(this,'all')">Tất cả</div>
         <div class="ftab" onclick="setAppFilter(this,'new')">🔵 Chưa xử lý</div>
@@ -171,7 +162,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
       <div id="appList"><div class="loading">Đang tải...</div></div>
     </div>
 
-    <!-- JOBS -->
     <div id="s-jobs" style="display:none">
       <div class="section-header">
         <div class="sh-title">Danh sách tin tuyển dụng</div>
@@ -180,25 +170,22 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
       <div id="jobsList"><div class="loading">Đang tải...</div></div>
     </div>
 
-    <!-- WORKERS -->
     <div id="s-workers" style="display:none">
       <div class="section-header">
         <div class="sh-title">Danh sách hồ sơ tìm việc</div>
-        <button class="btn-add" onclick="openWorkerForm()">+ Thêm hồ sơ mới</button>
+        <button class="btn-add" onclick="openWorkerForm()">+ Thêm hồ sơ</button>
       </div>
       <div id="workersList"><div class="loading">Đang tải...</div></div>
     </div>
 
   </div>
 </div>
-
 <div id="drawer" style="display:none"></div>
 
 <script>
 const API='/api';
 let token=localStorage.getItem('adminToken')||'';
-let editId=null;
-let appFilter='all';
+let editId=null,appFilter='all',imgCount=1;
 if(token)boot();
 
 async function doLogin(){
@@ -210,26 +197,23 @@ async function doLogin(){
     const d=await r.json();
     if(!r.ok)return showLE(d.error||'Sai thông tin đăng nhập.');
     token=d.token;localStorage.setItem('adminToken',token);boot();
-  }catch(e){showLE('Không thể kết nối server.');}
+  }catch(e){showLE('Không thể kết nối.');}
 }
 function showLE(msg){const el=document.getElementById('loginErr');el.textContent=msg;el.style.display='block';}
 function logout(){localStorage.removeItem('adminToken');token='';location.reload();}
-
 function boot(){
   document.getElementById('loginPage').style.display='none';
   document.getElementById('adminPage').style.display='flex';
   document.getElementById('adminPage').style.flexDirection='column';
-  loadStats();loadAnalytics();checkNewApplications();
+  loadStats();loadAnalytics();checkNewApps();
 }
 
-async function checkNewApplications(){
+async function checkNewApps(){
   try{
     const d=await fetch(`${API}/stats`).then(r=>r.json());
     const n=d.new_applications||0;
     const nav=document.getElementById('navApps');
-    if(n>0){
-      nav.innerHTML=`📩 Đơn ứng tuyển <span class="badge-dot">${n>9?'9+':n}</span>`;
-    }
+    nav.innerHTML=`📩 Đơn ứng tuyển${n>0?` <span class="badge-dot">${n>9?'9+':n}</span>`:''}`;
   }catch(e){}
 }
 
@@ -248,29 +232,19 @@ async function loadStats(){
 async function loadAnalytics(){
   try{
     const d=await authGet(`${API}/admin/analytics`).then(r=>r.json());
-    const trend=d.todayViews>=d.yestViews
-      ?`<span class="trend-up">↑ ${d.todayViews-d.yestViews} so với hôm qua</span>`
-      :`<span class="trend-down">↓ ${d.yestViews-d.todayViews} so với hôm qua</span>`;
+    const trend=d.todayViews>=d.yestViews?`<span class="trend-up">↑ ${d.todayViews-d.yestViews} so với hôm qua</span>`:`<span class="trend-down">↓ ${d.yestViews-d.todayViews} so với hôm qua</span>`;
     const maxV=Math.max(...d.week.map(w=>w.total_views),1);
-    const bars=d.week.map(w=>{
-      const h=Math.max(Math.round((w.total_views/maxV)*100),2);
-      const label=new Date(w.date).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'});
-      return `<div class="bar-col"><div class="bar-inner" style="height:${h}%"><div class="tooltip">${w.total_views} lượt - ${label}</div></div><div class="bar-label">${label}</div></div>`;
-    }).join('');
+    const bars=d.week.map(w=>{const h=Math.max(Math.round((w.total_views/maxV)*100),2);const label=new Date(w.date).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'});return `<div class="bar-col"><div class="bar-inner" style="height:${h}%"><div class="tooltip">${w.total_views} lượt · ${label}</div></div><div class="bar-label">${label}</div></div>`;}).join('');
     const maxV30=Math.max(...d.month.map(w=>w.total_views),1);
-    const bars30=d.month.map(w=>{
-      const h=Math.max(Math.round((w.total_views/maxV30)*100),2);
-      const label=new Date(w.date).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'});
-      return `<div class="bar-col"><div class="bar-inner" style="height:${h}%;background:linear-gradient(180deg,#10b981,#059669)"><div class="tooltip">${w.total_views} lượt - ${label}</div></div><div class="bar-label">${label}</div></div>`;
-    }).join('');
+    const bars30=d.month.map(w=>{const h=Math.max(Math.round((w.total_views/maxV30)*100),2);const label=new Date(w.date).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'});return `<div class="bar-col"><div class="bar-inner" style="height:${h}%;background:linear-gradient(180deg,#10b981,#059669)"><div class="tooltip">${w.total_views} lượt · ${label}</div></div><div class="bar-label">${label}</div></div>`;}).join('');
     document.getElementById('analyticsGrid').innerHTML=`
       <div class="ana-card"><div class="ana-title">📅 Hôm nay</div><div class="ana-big">${d.todayViews}</div><div class="ana-sub">lượt truy cập ${trend}</div></div>
       <div class="ana-card"><div class="ana-title">👥 Unique hôm nay</div><div class="ana-big">${d.uniqueToday}</div><div class="ana-sub">người dùng khác nhau</div></div>
       <div class="ana-card"><div class="ana-title">📆 Tuần này</div><div class="ana-big">${d.week.reduce((a,w)=>a+parseInt(w.total_views),0)}</div><div class="ana-sub">${d.uniqueWeek} unique visitors</div></div>
-      <div class="ana-card"><div class="ana-title">🏆 Tổng lượt truy cập</div><div class="ana-big">${d.total}</div><div class="ana-sub">kể từ khi ra mắt</div></div>
-      <div class="ana-card full"><div class="ana-title">📊 Biểu đồ 7 ngày gần nhất</div><div class="chart-wrap">${bars||'<div style="color:#cbd5e1;font-size:13px;margin:auto">Chưa có dữ liệu</div>'}</div></div>
-      <div class="ana-card full"><div class="ana-title">📈 Biểu đồ 30 ngày gần nhất</div><div class="chart-wrap">${bars30||'<div style="color:#cbd5e1;font-size:13px;margin:auto">Chưa có dữ liệu</div>'}</div></div>
-      <div class="ana-card full"><div class="ana-title">📋 Chi tiết 7 ngày gần nhất</div>
+      <div class="ana-card"><div class="ana-title">🏆 Tổng cộng</div><div class="ana-big">${d.total}</div><div class="ana-sub">lượt truy cập từ khi ra mắt</div></div>
+      <div class="ana-card full"><div class="ana-title">📊 7 ngày gần nhất</div><div class="chart-wrap">${bars||'<div style="color:#cbd5e1;font-size:13px;margin:auto">Chưa có dữ liệu</div>'}</div></div>
+      <div class="ana-card full"><div class="ana-title">📈 30 ngày gần nhất</div><div class="chart-wrap">${bars30||'<div style="color:#cbd5e1;font-size:13px;margin:auto">Chưa có dữ liệu</div>'}</div></div>
+      <div class="ana-card full"><div class="ana-title">📋 Chi tiết 7 ngày</div>
         ${d.week.slice().reverse().map(w=>`<div class="ana-row"><span>${new Date(w.date).toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'})}</span><strong>${w.total_views} lượt</strong></div>`).join('')||'<div style="color:#cbd5e1;padding:16px;text-align:center">Chưa có dữ liệu</div>'}
       </div>`;
   }catch(e){document.getElementById('analyticsGrid').innerHTML='<div class="loading" style="grid-column:1/-1">Không thể tải thống kê</div>';}
@@ -278,26 +252,23 @@ async function loadAnalytics(){
 
 // ── ĐƠN ỨNG TUYỂN ─────────────────────────────────────────────
 function setAppFilter(el,f){
-  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');appFilter=f;loadApplications();
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));el.classList.add('active');appFilter=f;loadApplications();
 }
 
-async function loadApplications(){
+async function loadApplications(jobId=null){
   document.getElementById('appList').innerHTML='<div class="loading">Đang tải...</div>';
   try{
-    const d=await authGet(`${API}/admin/applications`).then(r=>r.json());
+    const url=jobId?`${API}/admin/applications?job_id=${jobId}`:`${API}/admin/applications`;
+    const d=await authGet(url).then(r=>r.json());
     let apps=d.applications||[];
-    if(appFilter!=='all') apps=apps.filter(a=>a.status===appFilter);
-    if(!apps.length){
-      document.getElementById('appList').innerHTML=`<div class="empty">${appFilter==='new'?'Không có đơn mới nào':'Không có đơn nào'}</div>`;
-      return;
-    }
+    if(appFilter!=='all')apps=apps.filter(a=>a.status===appFilter);
+    if(!apps.length){document.getElementById('appList').innerHTML=`<div class="empty">${appFilter==='new'?'Không có đơn mới':'Không có đơn nào'}</div>`;return;}
     document.getElementById('appList').innerHTML=apps.map(a=>`
       <div class="rec ${a.status==='new'?'app-new':a.status==='contacted'?'app-contacted':'app-rejected'}" id="app_${a.id}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
           <div>
             <div style="font-size:15px;font-weight:700">${esc(a.name)}${a.age?', '+a.age+' tuổi':''} (${esc(a.gender||'Nam')})</div>
-            <div style="font-size:12px;color:#64748b;margin-top:2px">Ứng tuyển: <strong>${esc(a.job_title||'—')}</strong> tại ${esc(a.company||'—')}</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px">Ứng tuyển: <strong>${esc(a.job_title||'—')}</strong> · ${esc(a.company||'—')}</div>
           </div>
           <span class="status-${a.status}">${a.status==='new'?'🔵 Chưa xử lý':a.status==='contacted'?'✅ Đã liên hệ':'❌ Không phù hợp'}</span>
         </div>
@@ -308,11 +279,11 @@ async function loadApplications(){
         </div>
         <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">⏰ ${fmt(a.created_at)}</div>
         <div class="rec-actions">
-          ${a.status!=='contacted'?`<button class="btn-contact" onclick="updateAppStatus(${a.id},'contacted')">✅ Đánh dấu đã liên hệ</button>`:''}
+          ${a.status!=='contacted'?`<button class="btn-contact" onclick="updateAppStatus(${a.id},'contacted')">✅ Đã liên hệ</button>`:''}
           ${a.status!=='rejected'?`<button class="btn-reject-app" onclick="updateAppStatus(${a.id},'rejected')">❌ Không phù hợp</button>`:''}
-          ${a.status==='new'?'':`<button class="btn-contact" style="background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe" onclick="updateAppStatus(${a.id},'new')">🔄 Đặt lại</button>`}
-          <button class="btn-del" onclick="deleteApp(${a.id})">🗑️ Xóa</button>
+          ${a.status!=='new'?`<button class="btn-contact" style="background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe" onclick="updateAppStatus(${a.id},'new')">🔄 Đặt lại</button>`:''}
           <a class="btn-edit" href="tel:${a.phone}" style="text-decoration:none">📞 Gọi ngay</a>
+          <button class="btn-del" onclick="deleteApp(${a.id})">🗑️ Xóa</button>
         </div>
       </div>`).join('');
   }catch(e){document.getElementById('appList').innerHTML='<div class="empty">Lỗi tải dữ liệu</div>';}
@@ -320,12 +291,12 @@ async function loadApplications(){
 
 async function updateAppStatus(id,status){
   await authFetch(`${API}/admin/applications/${id}`,'PUT',{status});
-  loadApplications();loadStats();checkNewApplications();
+  loadApplications();loadStats();checkNewApps();
 }
 async function deleteApp(id){
-  if(!confirm('Xóa đơn ứng tuyển này?'))return;
+  if(!confirm('Xóa đơn này?'))return;
   await authFetch(`${API}/admin/applications/${id}`,'DELETE');
-  loadApplications();loadStats();checkNewApplications();
+  loadApplications();loadStats();checkNewApps();
 }
 
 // ── JOBS ───────────────────────────────────────────────────────
@@ -333,65 +304,45 @@ async function loadJobs(){
   document.getElementById('jobsList').innerHTML='<div class="loading">Đang tải...</div>';
   try{
     const d=await fetch(`${API}/jobs`).then(r=>r.json());
-    if(!d.jobs.length){document.getElementById('jobsList').innerHTML='<div class="empty">Chưa có tin nào.</div>';return;}
-    document.getElementById('jobsList').innerHTML=d.jobs.map(j=>`
-      <div class="rec ${j.badge||''}">
-        ${j.poster_url?`<img class="rec-poster" src="${esc(j.poster_url)}" alt="poster" onerror="this.style.display='none'"/>`:''}
+    if(!d.jobs.length){document.getElementById('jobsList').innerHTML='<div class="empty">Chưa có tin nào. Nhấn "+ Đăng tin mới".</div>';return;}
+    document.getElementById('jobsList').innerHTML=d.jobs.map(j=>{
+      const imgs=j.images_arr||[];
+      const thumbsHtml=imgs.length?`<div class="rec-imgs">${imgs.map((url,i)=>`<img src="${esc(url)}" alt="ảnh ${i+1}" onerror="this.style.display='none'" title="Ảnh ${i+1}"/>`).join('')}<span style="font-size:11px;color:#94a3b8;align-self:center">${imgs.length} ảnh</span></div>`:'';
+      return `<div class="rec ${j.badge||''}">
+        ${thumbsHtml}
         <div class="rec-company">${esc(j.company)}</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
           <div class="rec-title">${esc(j.title)}</div>
           <span class="badge-tag ${j.badge?'bt-'+j.badge:'bt-none'}">${j.badge==='hot'?'🔥 Nổi bật':j.badge==='new'?'🆕 Mới':j.badge==='urgent'?'⚠️ Gấp':'Thường'}</span>
         </div>
-        <div class="rec-meta">👉 ${esc(j.salary||'—')} | 👥 ${j.qty} người | ${esc(j.work_type)} | 📍 ${esc(j.address||'—')} | 📞 ${esc(j.phone)} | 🗓 ${fmt(j.created_at)}</div>
+        <div class="rec-meta">👉 ${esc(j.salary||'—')} | 👥 ${j.qty} người | ${esc(j.work_type)} | 📍 ${esc(j.address||'—')} | 📞 ${esc(j.phone)}</div>
         <div class="rec-actions">
           <button class="btn-edit" onclick="openJobForm(${j.id})">✏️ Sửa</button>
           <button class="btn-del" onclick="delJob(${j.id})">🗑️ Xóa</button>
-          <button class="btn-contact" onclick="viewJobApps(${j.id},'${esc(j.title)}')">📩 Xem đơn ứng tuyển</button>
+          <button class="btn-contact" onclick="viewJobApps(${j.id},'${esc(j.title)}')">📩 Đơn ứng tuyển</button>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }catch(e){document.getElementById('jobsList').innerHTML='<div class="empty">Lỗi tải dữ liệu</div>';}
 }
 
 async function viewJobApps(jobId,title){
-  // Chuyển sang tab đơn ứng tuyển và lọc theo job
   document.querySelectorAll('.anav-item').forEach(e=>e.classList.remove('active'));
   document.getElementById('navApps').classList.add('active');
   ['s-dashboard','s-applications','s-jobs','s-workers'].forEach(s=>document.getElementById(s).style.display=s==='s-applications'?'block':'none');
+  document.getElementById('appSectionTitle').textContent=`📩 Đơn ứng tuyển: ${title}`;
   appFilter='all';
-  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
-  document.querySelector('.ftab').classList.add('active');
-  // Tải đơn cho job cụ thể
-  document.getElementById('appList').innerHTML='<div class="loading">Đang tải...</div>';
-  try{
-    const d=await authGet(`${API}/admin/applications?job_id=${jobId}`).then(r=>r.json());
-    const apps=d.applications||[];
-    const header=document.querySelector('.section-header .sh-title');
-    if(header)header.textContent=`📩 Đơn ứng tuyển: ${title} (${apps.length})`;
-    if(!apps.length){document.getElementById('appList').innerHTML='<div class="empty">Chưa có đơn ứng tuyển nào cho tin này</div>';return;}
-    document.getElementById('appList').innerHTML=apps.map(a=>`
-      <div class="rec ${a.status==='new'?'app-new':a.status==='contacted'?'app-contacted':'app-rejected'}" id="app_${a.id}">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-          <div><div style="font-size:15px;font-weight:700">${esc(a.name)}${a.age?', '+a.age+' tuổi':''} (${esc(a.gender||'Nam')})</div></div>
-          <span class="status-${a.status}">${a.status==='new'?'🔵 Chưa xử lý':a.status==='contacted'?'✅ Đã liên hệ':'❌ Không phù hợp'}</span>
-        </div>
-        <div class="app-info-box">
-          <div class="app-phone">📞 ${esc(a.phone)}</div>
-          ${a.experience?`<div style="font-size:13px;color:#475569;margin-top:6px">💼 ${esc(a.experience)}</div>`:''}
-          ${a.note?`<div style="font-size:13px;color:#64748b;margin-top:4px">📝 ${esc(a.note)}</div>`:''}
-        </div>
-        <div class="rec-actions">
-          ${a.status!=='contacted'?`<button class="btn-contact" onclick="updateAppStatus(${a.id},'contacted')">✅ Đã liên hệ</button>`:''}
-          ${a.status!=='rejected'?`<button class="btn-reject-app" onclick="updateAppStatus(${a.id},'rejected')">❌ Không phù hợp</button>`:''}
-          <button class="btn-del" onclick="deleteApp(${a.id})">🗑️ Xóa</button>
-          <a class="btn-edit" href="tel:${a.phone}" style="text-decoration:none">📞 Gọi ngay</a>
-        </div>
-      </div>`).join('');
-  }catch(e){}
+  document.querySelectorAll('.ftab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  loadApplications(jobId);
 }
 
+// ── FORM ĐĂNG TIN (nhiều ảnh) ──────────────────────────────────
 async function openJobForm(id=null){
   editId=id;let j={};
   if(id){j=await fetch(`${API}/jobs/${id}`).then(r=>r.json());}
+  const existImgs=j.images_arr||[];
+  imgCount=Math.max(existImgs.length,1);
+
   document.getElementById('drawer').style.display='flex';
   document.getElementById('drawer').className='overlay';
   document.getElementById('drawer').innerHTML=`
@@ -413,12 +364,14 @@ async function openJobForm(id=null){
       </div>
       <div class="fg2"><label>Địa chỉ làm việc</label><input type="text" id="f_addr" value="${esc(j.address||'')}" placeholder="KCN Dầu Tiếng, xã Long Hòa"/></div>
       <div class="fg2"><label>Mô tả công việc & yêu cầu</label><textarea id="f_desc">${esc(j.description||'')}</textarea></div>
+
       <div class="fg2">
-        <label>🖼️ Link ảnh poster</label>
-        <input type="url" id="f_poster" value="${esc(j.poster_url||'')}" placeholder="https://res.cloudinary.com/..." oninput="previewPoster()"/>
-        <div class="cloudinary-hint">📌 Upload ảnh lên <strong>cloudinary.com</strong> → copy link → dán vào đây</div>
-        <img id="posterPreview" class="poster-preview" src="" alt="Xem trước" onerror="this.style.display='none'"/>
+        <label>🖼️ Ảnh poster tuyển dụng (tối đa 6 ảnh)</label>
+        <div class="cloudinary-hint">📌 Upload ảnh lên <strong>cloudinary.com</strong> → copy link → dán vào đây. Ảnh đầu tiên sẽ là ảnh đại diện.</div>
+        <div class="img-list" id="imgList"></div>
+        <button class="btn-add-img" onclick="addImgRow()">+ Thêm ảnh</button>
       </div>
+
       <div class="frow">
         <div class="fg2"><label>Người liên hệ <span>*</span></label><input type="text" id="f_contact" value="${esc(j.contact||'')}" placeholder="Anh/Chị Nguyễn Văn A"/></div>
         <div class="fg2"><label>Số điện thoại <span>*</span></label><input type="tel" id="f_phone" value="${esc(j.phone||'')}" placeholder="0909 123 456"/></div>
@@ -436,19 +389,80 @@ async function openJobForm(id=null){
       </div>
       <button class="btn-save" id="fSaveBtn" onclick="saveJob()">${id?'💾 Lưu thay đổi':'📢 Đăng tin ngay'}</button>
     </div>`;
-  if(j.poster_url){const img=document.getElementById('posterPreview');img.src=j.poster_url;img.style.display='block';}
+
+  // Render ảnh hiện có
+  const imgList=document.getElementById('imgList');
+  if(existImgs.length>0){
+    existImgs.forEach((url,i)=>addImgRow(url,i));
+  } else {
+    addImgRow('',0);
+  }
   document.getElementById('drawer').onclick=e=>{if(e.target===document.getElementById('drawer'))closeDrawer();};
 }
 
-function previewPoster(){
-  const url=document.getElementById('f_poster').value.trim();
-  const img=document.getElementById('posterPreview');
-  if(url){img.src=url;img.style.display='block';}else img.style.display='none';
+function addImgRow(url='',idx=null){
+  const list=document.getElementById('imgList');
+  const rows=list.querySelectorAll('.img-row');
+  if(rows.length>=6){alert('Tối đa 6 ảnh.');return;}
+  const i=idx!==null?idx:rows.length;
+  const div=document.createElement('div');
+  div.className='img-row';
+  div.id=`imgRow_${i}`;
+  div.innerHTML=`
+    <span style="font-size:12px;color:#94a3b8;flex-shrink:0;min-width:14px">${i+1}</span>
+    <input type="url" placeholder="https://res.cloudinary.com/..." value="${esc(url)}" oninput="previewThumb(this)"/>
+    <img class="prev-thumb" src="${url||''}" alt="" ${url?'style="display:block"':''} onerror="this.style.display='none'"/>
+    <button class="del-img" onclick="removeImgRow(this)" title="Xóa ảnh này">×</button>`;
+  list.appendChild(div);
+}
+
+function previewThumb(input){
+  const img=input.nextElementSibling;
+  if(input.value.trim()){img.src=input.value.trim();img.style.display='block';}
+  else img.style.display='none';
+}
+
+function removeImgRow(btn){
+  const row=btn.closest('.img-row');
+  const list=document.getElementById('imgList');
+  if(list.querySelectorAll('.img-row').length<=1){
+    // Nếu chỉ còn 1 row, chỉ xóa nội dung
+    row.querySelector('input').value='';
+    const img=row.querySelector('img');
+    img.src='';img.style.display='none';
+    return;
+  }
+  row.remove();
+  // Cập nhật số thứ tự
+  document.querySelectorAll('#imgList .img-row').forEach((r,i)=>{
+    r.querySelector('span').textContent=i+1;
+  });
+}
+
+function getImagesArray(){
+  return Array.from(document.querySelectorAll('#imgList .img-row input'))
+    .map(inp=>inp.value.trim())
+    .filter(Boolean);
 }
 
 async function saveJob(){
   const btn=document.getElementById('fSaveBtn');
-  const body={company:document.getElementById('f_company').value.trim(),title:document.getElementById('f_title').value.trim(),qty:document.getElementById('f_qty').value,category:document.getElementById('f_cat').value,salary:document.getElementById('f_salary').value.trim(),work_type:document.getElementById('f_wtype').value,address:document.getElementById('f_addr').value.trim(),description:document.getElementById('f_desc').value.trim(),poster_url:document.getElementById('f_poster').value.trim(),contact:document.getElementById('f_contact').value.trim(),phone:document.getElementById('f_phone').value.trim(),email:document.getElementById('f_email').value.trim(),badge:document.getElementById('f_badge').value};
+  const images=getImagesArray();
+  const body={
+    company:document.getElementById('f_company').value.trim(),
+    title:document.getElementById('f_title').value.trim(),
+    qty:document.getElementById('f_qty').value,
+    category:document.getElementById('f_cat').value,
+    salary:document.getElementById('f_salary').value.trim(),
+    work_type:document.getElementById('f_wtype').value,
+    address:document.getElementById('f_addr').value.trim(),
+    description:document.getElementById('f_desc').value.trim(),
+    images,
+    contact:document.getElementById('f_contact').value.trim(),
+    phone:document.getElementById('f_phone').value.trim(),
+    email:document.getElementById('f_email').value.trim(),
+    badge:document.getElementById('f_badge').value,
+  };
   if(!body.company||!body.title||!body.contact||!body.phone)return showFA('Vui lòng điền đầy đủ các trường bắt buộc (*).','err');
   btn.disabled=true;btn.textContent='Đang lưu...';
   try{
@@ -461,7 +475,7 @@ async function saveJob(){
 }
 
 async function delJob(id){
-  if(!confirm('Xóa tin này? Tất cả đơn ứng tuyển vào tin này cũng sẽ bị xóa.'))return;
+  if(!confirm('Xóa tin này? Tất cả đơn ứng tuyển cũng sẽ bị xóa.'))return;
   await authFetch(`${API}/admin/jobs/${id}`,'DELETE');
   loadJobs();loadStats();
 }
@@ -529,12 +543,7 @@ async function saveWorker(){
   }catch(e){showFA('Không thể kết nối.','err');}
   btn.disabled=false;
 }
-
-async function delWorker(id){
-  if(!confirm('Xóa hồ sơ này?'))return;
-  await authFetch(`${API}/admin/workers/${id}`,'DELETE');
-  loadWorkers();loadStats();
-}
+async function delWorker(id){if(!confirm('Xóa hồ sơ này?'))return;await authFetch(`${API}/admin/workers/${id}`,'DELETE');loadWorkers();loadStats();}
 
 // ── Helpers ────────────────────────────────────────────────────
 function closeDrawer(){document.getElementById('drawer').style.display='none';editId=null;}
@@ -543,7 +552,7 @@ function showSection(el,sec){
   ['s-dashboard','s-applications','s-jobs','s-workers'].forEach(s=>document.getElementById(s).style.display=s===sec?'block':'none');
   if(sec==='s-jobs')loadJobs();
   if(sec==='s-workers')loadWorkers();
-  if(sec==='s-applications')loadApplications();
+  if(sec==='s-applications'){document.getElementById('appSectionTitle').textContent='📩 Đơn ứng tuyển từ người lao động';loadApplications();}
   if(sec==='s-dashboard'){loadStats();loadAnalytics();}
 }
 function showFA(msg,type){const el=document.getElementById('fAlert');el.className='alert '+type;el.textContent=msg;}
