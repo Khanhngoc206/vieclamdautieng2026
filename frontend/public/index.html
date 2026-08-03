@@ -138,7 +138,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="hs"><div class="hs-n" id="hc">—</div><div class="hs-l">Doanh nghiệp</div></div>
     </div>
   </div>
-  <div class="header-bar">Xem tin và <strong>ứng tuyển</strong> hoặc <strong>liên hệ trực tiếp</strong> &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
+  <div class="header-bar">Xem tin và <strong>ứng tuyển</strong> qua Phòng Văn hoá - Xã hội &nbsp;·&nbsp; Hoàn toàn <strong>miễn phí</strong></div>
 </div>
 <div class="tabs">
   <div class="tabs-inner">
@@ -153,7 +153,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
       <div class="sc"><div class="sc-n" id="sp">—</div><div class="sc-l">Vị trí cần tuyển</div></div>
       <div class="sc"><div class="sc-n" id="sc2">—</div><div class="sc-l">Doanh nghiệp</div></div>
     </div>
-    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem chi tiết, <strong>ứng tuyển</strong> hoặc <strong>gọi điện trực tiếp</strong>. Miễn phí!</span></div>
+    <div class="notice"><span>ℹ️</span><span>Nhấn vào tin để xem chi tiết và <strong>ứng tuyển qua Phòng Văn hoá - Xã hội xã Dầu Tiếng</strong>. Hoàn toàn miễn phí!</span></div>
     <div class="searchbox">
       <div class="search-row">
         <input class="si" type="text" id="jsearch" placeholder="Tìm kiếm công việc, công ty, địa chỉ..." oninput="debJ()"/>
@@ -174,7 +174,7 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:22px 16px;font
     <div id="jobList"><div class="loading">Đang tải...</div></div>
   </div>
   <div id="tab-workers" style="display:none">
-    <div class="notice"><span>ℹ️</span><span>Danh sách người lao động đang tìm việc. Doanh nghiệp liên hệ Phòng Văn Hóa – Xã Hộiđể kết nối.</span></div>
+    <div class="notice"><span>ℹ️</span><span>Danh sách người lao động đang tìm việc. Doanh nghiệp liên hệ Phòng LĐ-TB&XH để kết nối.</span></div>
     <div class="searchbox">
       <div class="search-row">
         <input class="si" type="text" id="wsearch" placeholder="Tìm theo tên, nghề, địa bàn..." oninput="debW()"/>
@@ -313,16 +313,18 @@ async function openJob(id){
           ${j.address?`<div class="ds"><h4>Địa điểm</h4><p>📍 ${esc(j.address)}</p></div>`:''}
           ${j.description?`<div class="ds"><h4>Mô tả công việc</h4><p>${esc(j.description)}</p></div>`:''}
           <div class="cbox">
-            <h4>📞 Liên hệ trực tiếp với doanh nghiệp</h4>
+            <h4>📋 Liên hệ Phòng Văn hoá - Xã hội để được hỗ trợ</h4>
             <div class="crow">
-              <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <span style="font-weight:700;font-size:14px">${esc(j.contact)}</span>
+              <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+              <span style="font-weight:700;font-size:14px">Phòng Văn hoá - Xã hội xã Dầu Tiếng</span>
             </div>
             <div class="crow">
-              <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.16 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-              <div class="ph">${esc(j.phone)}</div>
+              <div class="cicon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <span style="font-size:13px">UBND xã Dầu Tiếng, huyện Dầu Tiếng, tỉnh Bình Dương</span>
             </div>
-            <a class="btn-call" href="tel:${j.phone.replace(/\s/g,'')}">📞 Gọi ngay cho doanh nghiệp</a>
+            <div style="background:#fff;border-radius:8px;padding:10px 14px;margin-top:8px;font-size:13px;color:#475569;line-height:1.6">
+              📌 Người lao động quan tâm vui lòng <strong>đến trực tiếp Phòng Văn hoá - Xã hội</strong> hoặc nhấn nút <strong>"Ứng tuyển"</strong> bên dưới để gửi thông tin — cán bộ phụ trách sẽ liên hệ lại với bạn.
+            </div>
           </div>
           <hr class="divider"/>
           <button class="btn-apply" id="btnApply_${j.id}" onclick="toggleApplyForm(${j.id})">📝 Ứng tuyển qua Phòng Lao động</button>
