@@ -58,17 +58,38 @@ function parseImages(job) {
 // ── PUBLIC ─────────────────────────────────────────────────────
 app.get('/api/jobs', async (req, res) => {
   try {
-    const { search='', category='', work_type='' } = req.query;
-    let sql = 'SELECT * FROM jobs WHERE 1=1';
+    const { search='', category='', work_type='', page=1, limit=6 } = req.query;
+    const pageNum = Math.max(1, parseInt(page)||1);
+    const limitNum = Math.min(20, Math.max(1, parseInt(limit)||6));
+    const offset = (pageNum - 1) * limitNum;
+
+    let where = 'WHERE 1=1';
     const p = [];
-    if (search) { p.push(`%${search}%`); sql += ` AND (title ILIKE $${p.length} OR company ILIKE $${p.length} OR address ILIKE $${p.length})`; }
-    if (category) { p.push(category); sql += ` AND category=$${p.length}`; }
-    if (work_type) { p.push(work_type); sql += ` AND work_type=$${p.length}`; }
-    sql += ' ORDER BY created_at DESC';
+    if (search) { p.push(`%${search}%`); where += ` AND (title ILIKE $${p.length} OR company ILIKE $${p.length} OR address ILIKE $${p.length})`; }
+    if (category) { p.push(category); where += ` AND category=$${p.length}`; }
+    if (work_type) { p.push(work_type); where += ` AND work_type=$${p.length}`; }
+
+    // Đếm tổng
+    const countResult = await pool.query(`SELECT COUNT(*) as cnt FROM jobs ${where}`, p);
+    const totalItems = parseInt(countResult.rows[0].cnt) || 0;
+    const totalPages = Math.ceil(totalItems / limitNum);
+
+    // Lấy dữ liệu trang hiện tại
+    p.push(limitNum); p.push(offset);
+    const sql = `SELECT * FROM jobs ${where} ORDER BY created_at DESC LIMIT $${p.length-1} OFFSET $${p.length}`;
     const { rows } = await pool.query(sql, p);
     const jobs = rows.map(parseImages);
+
     const s = (await pool.query('SELECT COUNT(*) as t,SUM(qty) as q,COUNT(DISTINCT company) as c FROM jobs')).rows[0];
-    res.json({ jobs, total: jobs.length, total_qty: parseInt(s.q)||0, total_companies: parseInt(s.c)||0 });
+    res.json({
+      jobs,
+      total: totalItems,
+      total_pages: totalPages,
+      current_page: pageNum,
+      per_page: limitNum,
+      total_qty: parseInt(s.q)||0,
+      total_companies: parseInt(s.c)||0
+    });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -232,6 +253,92 @@ app.delete('/api/admin/workers/:id', requireAdmin, async (req, res) => {
   try {
     await pool.query('DELETE FROM workers WHERE id=$1', [req.params.id]);
     res.json({ message: 'Đã xóa.' });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── EXPORT toàn bộ dữ liệu ────────────────────────────────────
+app.get('/api/admin/export', requireAdmin, async (req, res) => {
+  try {
+    const jobs = (await pool.query('SELECT * FROM jobs ORDER BY id')).rows;
+    const workers = (await pool.query('SELECT * FROM workers ORDER BY id')).rows;
+    const exportData = {
+      version: '1.0',
+      exported_at: new Date().toISOString(),
+      jobs,
+      workers
+    };
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="backup-vieclamdautieng-${new Date().toISOString().slice(0,10)}.json"`);
+    res.json(exportData);
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── IMPORT khôi phục dữ liệu ──────────────────────────────────
+app.post('/api/admin/import', requireAdmin, async (req, res) => {
+  try {
+    const { jobs = [], workers = [], clear_existing = false } = req.body;
+
+    let jobsAdded = 0, workersAdded = 0, jobsSkipped = 0, workersSkipped = 0;
+
+    // Xóa dữ liệu cũ nếu chọn ghi đè
+    if (clear_existing) {
+      await pool.query('DELETE FROM applications');
+      await pool.query('DELETE FROM jobs');
+      await pool.query('DELETE FROM workers');
+    }
+
+    // Import jobs
+    for (const j of jobs) {
+      // Kiểm tra trùng (theo company + title + phone)
+      const dup = await pool.query(
+        'SELECT id FROM jobs WHERE company=$1 AND title=$2 AND phone=$3',
+        [j.company, j.title, j.phone]
+      );
+      if (dup.rows.length > 0) { jobsSkipped++; continue; }
+
+      await pool.query(
+        `INSERT INTO jobs (company,title,qty,category,salary,work_type,address,description,poster_url,images,contact,phone,email,badge,created_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`,
+        [
+          j.company, j.title, j.qty||1, j.category||'Khác',
+          j.salary||'', j.work_type||'Toàn thời gian',
+          j.address||'', j.description||'',
+          j.poster_url||'', j.images||'[]',
+          j.contact, j.phone, j.email||'', j.badge||'',
+          j.created_at || new Date().toISOString()
+        ]
+      );
+      jobsAdded++;
+    }
+
+    // Import workers
+    for (const w of workers) {
+      const dup = await pool.query(
+        'SELECT id FROM workers WHERE name=$1 AND phone=$2',
+        [w.name, w.phone]
+      );
+      if (dup.rows.length > 0) { workersSkipped++; continue; }
+
+      await pool.query(
+        `INSERT INTO workers (name,age,gender,seek,experience,location,phone,available,created_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+        [
+          w.name, w.age||null, w.gender||'Nam',
+          w.seek, w.experience||'', w.location||'',
+          w.phone, w.available||'Có thể đi làm ngay',
+          w.created_at || new Date().toISOString()
+        ]
+      );
+      workersAdded++;
+    }
+
+    res.json({
+      message: `Nhập dữ liệu thành công!`,
+      jobs_added: jobsAdded,
+      jobs_skipped: jobsSkipped,
+      workers_added: workersAdded,
+      workers_skipped: workersSkipped
+    });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
