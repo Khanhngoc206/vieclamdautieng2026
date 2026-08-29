@@ -121,7 +121,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
       <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#1563a8" stroke-width="2" style="margin:0 auto;display:block"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
     <div class="login-title">Đăng nhập Quản trị</div>
-    <div class="login-sub">Sàn Việc Làm UBND Xã Dầu Tiếng</div>
+    <div class="login-sub">Sàn Việc Làm Huyện Dầu Tiếng</div>
     <div class="login-err" id="loginErr"></div>
     <div class="fg"><label>Tên đăng nhập</label><input type="text" id="uname" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <div class="fg"><label>Mật khẩu</label><input type="password" id="upass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
@@ -132,9 +132,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;fo
 
 <div class="admin-page" id="adminPage" style="display:none">
   <div class="admin-header">
-    <h1>⚙️ Quản Trị – Sàn Việc Làm UBND Xã Dầu Tiếng</h1>
+    <h1>⚙️ Quản Trị – Sàn Việc Làm Dầu Tiếng</h1>
     <div style="display:flex;align-items:center;gap:10px">
       <a href="index.html" target="_blank" class="view-site">Xem trang ↗</a>
+      <button onclick="exportData()" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">📥 Xuất dữ liệu</button>
+      <button onclick="openImport()" style="background:#d97706;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">📤 Nhập dữ liệu</button>
       <button class="btn-logout" onclick="logout()">Đăng xuất</button>
     </div>
   </div>
@@ -563,3 +565,113 @@ function fmt(d){try{return new Date(d).toLocaleDateString('vi-VN',{day:'2-digit'
 </script>
 </body>
 </html>
+<!-- EXPORT/IMPORT MODAL -->
+<div id="importModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:480px;box-shadow:0 8px 32px rgba(0,0,0,.2)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #f1f5f9">
+      <div style="font-size:17px;font-weight:800">📤 Nhập dữ liệu từ file backup</div>
+      <button onclick="closeImport()" style="background:none;border:none;font-size:26px;cursor:pointer;color:#94a3b8">×</button>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:8px;padding:12px;font-size:13px;color:#78350f;margin-bottom:16px;line-height:1.6">
+      ⚠️ Chọn file <strong>backup-vieclamdautieng-xxxx.json</strong> đã xuất trước đó.<br>
+      Tin trùng (cùng công ty + vị trí + SĐT) sẽ được <strong>bỏ qua</strong>, không nhập 2 lần.
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:13px;font-weight:600;color:#64748b;display:block;margin-bottom:6px">Chọn file JSON backup:</label>
+      <input type="file" id="importFile" accept=".json" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px"/>
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="clearExisting" style="width:16px;height:16px"/>
+        <span><strong>Xóa toàn bộ dữ liệu cũ</strong> trước khi nhập (dùng khi chuyển database mới hoàn toàn)</span>
+      </label>
+    </div>
+    <div id="importResult" style="display:none;padding:12px;border-radius:8px;font-size:13px;margin-bottom:12px"></div>
+    <div style="display:flex;gap:8px">
+      <button onclick="closeImport()" style="flex:1;background:#f1f5f9;color:#64748b;border:none;padding:11px;border-radius:8px;font-size:14px;cursor:pointer">Hủy</button>
+      <button onclick="doImport()" id="importBtn" style="flex:2;background:#1563a8;color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">📤 Nhập dữ liệu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── EXPORT ─────────────────────────────────────────────────────
+async function exportData() {
+  try {
+    const res = await authGet('/api/admin/export');
+    if (!res.ok) { alert('Không thể xuất dữ liệu.'); return; }
+    const data = await res.json();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup-vieclamdautieng-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    alert(`✅ Đã xuất ${data.jobs.length} tin tuyển dụng và ${data.workers.length} hồ sơ tìm việc.\n\nLưu file này lại để khôi phục khi cần!`);
+  } catch(e) { alert('Lỗi: ' + e.message); }
+}
+
+// ── IMPORT ─────────────────────────────────────────────────────
+function openImport() {
+  document.getElementById('importModal').style.display = 'flex';
+  document.getElementById('importResult').style.display = 'none';
+  document.getElementById('importFile').value = '';
+  document.getElementById('clearExisting').checked = false;
+}
+
+function closeImport() {
+  document.getElementById('importModal').style.display = 'none';
+}
+
+async function doImport() {
+  const fileInput = document.getElementById('importFile');
+  const clearExisting = document.getElementById('clearExisting').checked;
+  const btn = document.getElementById('importBtn');
+  const resultEl = document.getElementById('importResult');
+
+  if (!fileInput.files[0]) { alert('Vui lòng chọn file JSON backup.'); return; }
+
+  const file = fileInput.files[0];
+  let data;
+  try {
+    const text = await file.text();
+    data = JSON.parse(text);
+  } catch(e) { alert('File không hợp lệ. Vui lòng chọn file JSON đúng định dạng.'); return; }
+
+  if (!data.jobs && !data.workers) { alert('File không đúng định dạng backup.'); return; }
+
+  if (clearExisting && !confirm('⚠️ Xác nhận xóa toàn bộ dữ liệu hiện tại và nhập lại từ file?\n\nHành động này KHÔNG thể hoàn tác!')) return;
+
+  btn.disabled = true; btn.textContent = 'Đang nhập...';
+  try {
+    const res = await authFetch('/api/admin/import', 'POST', {
+      jobs: data.jobs || [],
+      workers: data.workers || [],
+      clear_existing: clearExisting
+    });
+    const d = await res.json();
+    if (res.ok) {
+      resultEl.style.background = '#f0fdf4';
+      resultEl.style.border = '1px solid #bbf7d0';
+      resultEl.style.color = '#15803d';
+      resultEl.innerHTML = `✅ <strong>${d.message}</strong><br>
+        📋 Tin tuyển dụng: thêm <strong>${d.jobs_added}</strong>, bỏ qua trùng <strong>${d.jobs_skipped}</strong><br>
+        👤 Hồ sơ tìm việc: thêm <strong>${d.workers_added}</strong>, bỏ qua trùng <strong>${d.workers_skipped}</strong>`;
+      resultEl.style.display = 'block';
+      loadStats(); loadJobs();
+      btn.textContent = '✅ Nhập thành công';
+    } else {
+      resultEl.style.background = '#fef2f2';
+      resultEl.style.border = '1px solid #fecaca';
+      resultEl.style.color = '#b91c1c';
+      resultEl.textContent = '❌ Lỗi: ' + (d.error || 'Không thể nhập dữ liệu.');
+      resultEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = '📤 Nhập dữ liệu';
+    }
+  } catch(e) {
+    alert('Không thể kết nối server: ' + e.message);
+    btn.disabled = false; btn.textContent = '📤 Nhập dữ liệu';
+  }
+}
+</script>
