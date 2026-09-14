@@ -103,13 +103,23 @@ app.get('/api/jobs/:id', async (req, res) => {
 
 app.get('/api/workers', async (req, res) => {
   try {
-    const { search='' } = req.query;
-    let sql = 'SELECT * FROM workers WHERE 1=1';
+    const { search='', page=1, limit=6 } = req.query;
+    const pageNum = Math.max(1, parseInt(page)||1);
+    const limitNum = Math.min(20, Math.max(1, parseInt(limit)||6));
+    const offset = (pageNum-1)*limitNum;
+
+    let where = 'WHERE 1=1';
     const p = [];
-    if (search) { p.push(`%${search}%`); sql += ` AND (name ILIKE $1 OR seek ILIKE $1 OR location ILIKE $1)`; }
-    sql += ' ORDER BY created_at DESC';
+    if (search) { p.push(`%${search}%`); where += ` AND (name ILIKE $1 OR seek ILIKE $1 OR location ILIKE $1)`; }
+
+    const countResult = await pool.query(`SELECT COUNT(*) as cnt FROM workers ${where}`, p);
+    const totalItems = parseInt(countResult.rows[0].cnt)||0;
+    const totalPages = Math.ceil(totalItems/limitNum);
+
+    p.push(limitNum); p.push(offset);
+    const sql = `SELECT * FROM workers ${where} ORDER BY created_at DESC LIMIT $${p.length-1} OFFSET $${p.length}`;
     const { rows } = await pool.query(sql, p);
-    res.json({ workers: rows });
+    res.json({ workers: rows, total: totalItems, total_pages: totalPages, current_page: pageNum, per_page: limitNum });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
